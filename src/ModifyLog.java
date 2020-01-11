@@ -56,7 +56,7 @@ public class ModifyLog {
 		return fileHash;
 	}
 	
-	static String openFileHash(String fileName) {
+	static String lastFileHash(String fileName) { //need update
 		
 		String fileHash="";
 		

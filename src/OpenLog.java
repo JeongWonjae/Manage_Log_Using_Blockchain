@@ -34,7 +34,7 @@ public class OpenLog {
 				if(readLogLine.contains(":"))
 				{
 					currentTime=LogTime.getCurrentTimeWtmp(readLogLine);
-					 if(SubTool.toInt(starttime)<currentTime)
+					 if(SubTool.toInt(starttime)<currentTime) //need update
 					 {
 					 	allLogArr[allLogArrIndex]=readLogLine;
 					 	allLogArrIndex+=1;

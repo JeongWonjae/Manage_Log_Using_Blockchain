@@ -3,7 +3,7 @@ import java.util.Date;
 
 public class Block {
 
-	static void createBlock(String ip,String allLogArr[]) {
+	static ArrayList<BlockStructure> createBlock(String ip,String allLogArr[]) {
 		
 		ArrayList<BlockStructure> bchain=new ArrayList<BlockStructure>();
 		
@@ -15,13 +15,7 @@ public class Block {
 				bchain.add(block);
 			}
 		}
-		
-		
-		int i=1;
-		for(BlockStructure lkp : bchain) {
-			System.out.println("["+i+"]"+"LOG:"+lkp.log+" Hash:"+lkp.hash+" pHash:"+lkp.allocatePreviousHash+" <time:"+lkp.timeStamp+">");
-			i++;
-		}
+		return bchain;
 	}
 }
 
