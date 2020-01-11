@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page language="java" import="java.util.*,java.text.*,java.io.*,java.sql.*" %>
+<%@ page language="java" import="java.util.*,java.text.*,java.io.*,java.sql.*,java.math.*" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 
 <%
@@ -10,7 +10,7 @@
   String localIP=request.getParameter("localIP");
   //String nonce=reqeust.getParameter("nonce"); //need update
   String timeStamp_c=request.getParameter("timeStamp");
-  int timeStamp=Integer.parseInt(timeStamp_c);
+  BigInteger timeStamp=new BigInteger(timeStamp_c);
   String path;
   String sendedFlag_c=request.getParameter("sendedFlag");
   int sendedFlag=Integer.parseInt(sendedFlag_c);
@@ -38,7 +38,7 @@
       rs_callIP=stmt_callIP.executeQuery(sql);
       while(rs_callIP.next())
       {
-        if(!(localIP.equals(rs.rs_callIP.getString("ip"))))
+        if(!(localIP.equals(rs_callIP.getString("ip"))))
         participateNode.put(rs_callIP.getString("ip"), rs_callIP.getString("serverPath"));
       }
 
@@ -72,12 +72,12 @@
 create database logBCK_Project;
 
 create table logchain(
-blockID int NOT NULL,
+blockID bigint NOT NULL,
 ip varchar(30) NOT NULL,
-log varchar(50) NOT NULL,
-hash varchar(20) NOT NULL,
-pHash varchar(20) NOT NULL,
-timeStamp int NOT NULL,
+log varchar(100) NOT NULL,
+hash varchar(100) NOT NULL,
+pHash varchar(100) NOT NULL,
+timeStamp bigint NOT NULL,
 PRIMARY KEY (ip)
 );
 
@@ -93,5 +93,6 @@ insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1");
 
 
 alter table node add column serverPath varchar(30) NOT NULL;
+alter table logchain modify timeStamp bigint;
 update node set serverPath="/jsp/storeLog.jsp" where ip='192.168.11.104';
 -->
