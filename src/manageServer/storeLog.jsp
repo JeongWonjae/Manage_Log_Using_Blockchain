@@ -15,13 +15,17 @@
   String sendedFlag_c=request.getParameter("sendedFlag");
   int sendedFlag=Integer.parseInt(sendedFlag_c);
 
-  int blockID=1; //need update
+  int blockID=0;
+  String blockID_s="";
   String sql=null;
   Connection conn=null;
 
   Statement stmt_callIP=null;
   PreparedStatement pstmt_callIP=null;
   ResultSet rs_callIP=null;
+
+  Statement stmt_callBlockID=null;
+  ResultSet rs_callBlockID=null;
 
   Statement stmt_addBlock=null;
 
@@ -40,6 +44,19 @@
       {
         if(!(localIP.equals(rs_callIP.getString("ip"))))
         participateNode.put(rs_callIP.getString("ip"), rs_callIP.getString("serverPath"));
+      }
+
+      sql="select max(blockID) as count from Logchain";
+      stmt_callBlockID=conn.createStatement();
+      rs_callBlockID=stmt_callBlockID.executeQuery(sql);
+      if(rs_callBlockID.next() && rs_callBlockID.getString("count")!=null)
+      {
+        blockID_s=rs_callBlockID.getString("count");
+        blockID=Integer.parseInt(blockID_s);
+        blockID++;
+      }else
+      {
+        blockID=1;
       }
 
       sql="insert into Logchain values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+")";
@@ -95,4 +112,10 @@ insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1");
 alter table node add column serverPath varchar(30) NOT NULL;
 alter table logchain modify timeStamp bigint;
 update node set serverPath="/jsp/storeLog.jsp" where ip='192.168.11.104';
+
+create table fileHash(
+fileName varchar(30) NOT NULL,
+hash varchar(100) NOT NULL,
+PRIMARY KEY (fileName)
+)
 -->
