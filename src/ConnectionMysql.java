@@ -1,5 +1,4 @@
 import java.sql.DriverManager;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,14 +9,13 @@ public class ConnectionMysql {
 		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
-		ResultSet rs=null;
 		
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
 			stmt=conn.createStatement();
-			rs=stmt.executeQuery(query);	
+			stmt.executeQuery(query);	
 		} catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
@@ -46,7 +44,7 @@ public class ConnectionMysql {
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(query);
 			
@@ -83,7 +81,7 @@ public class ConnectionMysql {
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
-			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/test?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(query);
 			
@@ -110,4 +108,111 @@ public class ConnectionMysql {
 		return res;
 	}
 	
+	static void insertIntoFileHash(String fileName,String fileHash) throws SQLException {
+		
+		java.sql.Connection conn=null;
+		Statement stmt=null;
+		
+		String query="insert into fileHash values("+"'"+fileName+"'"+",'"+fileHash+"')";
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			stmt=conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch(ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if(conn!=null)
+			{
+				try
+				{
+					conn.close();
+				} catch(Exception e)
+				{
+				}
+			}
+		}
+	}
+	
+	static void updateSetFileHash(String fileName, String fileHash) throws SQLException{
+		
+		java.sql.Connection conn=null;
+		Statement stmt=null;
+		
+		String query="update fileHash set hash='"+fileHash+"' where fileName='"+fileName+"'";
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			stmt=conn.createStatement();
+			stmt.executeUpdate(query);
+		} catch(ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if(conn!=null)
+			{
+				try
+				{
+					conn.close();
+				} catch(Exception e)
+				{
+				}
+			}
+		}
+		
+	}
+	
+	static boolean isExist(String query, String findAttributeName, String findAttributeValue) throws SQLException {
+		
+		java.sql.Connection conn=null;
+		Statement stmt=null;
+		ResultSet rs=null;
+		query=query+" where "+findAttributeName+"='"+findAttributeValue+"'";
+		int is=0;
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			stmt=conn.createStatement();
+			rs=stmt.executeQuery(query);
+			
+			if(rs.next())
+			{
+				is=1;
+			}else
+			{
+				is=0;
+			}
+		} catch(ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if(conn!=null)
+			{
+				try
+				{
+					conn.close();
+				} catch(Exception e)
+				{
+				}
+			}
+		}
+		if(is==1)
+		{
+			return true;
+		}else if(is==0)
+		{
+			return false;
+		}
+		return false;
+	}
 }

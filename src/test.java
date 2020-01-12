@@ -1,19 +1,8 @@
-import java.io.DataOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-
-import javax.net.ssl.HttpsURLConnection;
-
 
 public class test {
 
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
-		String time;
 		/*
 		time=LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddHHmm"));
 		System.out.println(time);
@@ -39,6 +28,7 @@ public class test {
 				+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag;
 		System.out.println(path);*/
 		
+		/*
 		String url="http://localhost:8080/jsp/test2.jsp";
 		String urlParameter="a=hi";
 		
@@ -56,5 +46,16 @@ public class test {
 		int responseCode=con.getResponseCode();
 		System.out.println(">"+url);
 		System.out.println(">"+responseCode);
+		*/
+	
+		/*
+		String fileName="A://testfile/wtmp.txt";
+		//String fileHash=ModifyLog.getFileHash(fileName);
+		//System.out.println(fileHash);
+		//ModifyLog.saveFileHash(fileName, fileHash);
+		
+		System.out.println(ModifyLog.lastFileHash(fileName));*/
+		
+		System.out.println(ConnectionMysql.isExist("select * from node", "ip", "192.168.11.102"));
 	}
 }

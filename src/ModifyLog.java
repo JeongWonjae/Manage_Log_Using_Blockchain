@@ -1,13 +1,10 @@
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.SQLException;
 
 public class ModifyLog {
 
@@ -56,18 +53,22 @@ public class ModifyLog {
 		return fileHash;
 	}
 	
-	static String lastFileHash(String fileName) { //need update
+	static String lastFileHash(String fileName) throws SQLException { //need update
 		
 		String fileHash="";
+		String query="";
+		query="select hash from fileHash where fileName='"+fileName+"'";
+		fileHash=ConnectionMysql.queryReturnString(query, "hash");
 		
 		return fileHash;
 	}
 	
-	static String[] wtmp(String[] allLogArr) {
-			
-			String[] log=new String[1024];
-			
-			
-			return log;
+	static void saveFileHash(String fileName, String fileHash) throws SQLException {
+		ConnectionMysql.insertIntoFileHash(fileName, fileHash);
 	}
+	
+	static void updateFileHash(String fileName, String fileHash) throws SQLException{
+		ConnectionMysql.updateSetFileHash(fileName, fileHash);
+	}
+	
 }
