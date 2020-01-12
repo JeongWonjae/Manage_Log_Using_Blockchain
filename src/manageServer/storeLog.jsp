@@ -3,11 +3,13 @@
 <% request.setCharacterEncoding("UTF-8"); %>
 
 <%
+  //static value per client
+  String localIP="192.168.11.104";
+
   String ip=request.getParameter("ip");
   String log=request.getParameter("log");
   String hash=request.getParameter("hash");
   String pHash=request.getParameter("pHash");
-  String localIP=request.getParameter("localIP"); //need update, using when need this parameter, except case remove.
   //String nonce=reqeust.getParameter("nonce"); //need update
   String timeStamp_c=request.getParameter("timeStamp");
   BigInteger timeStamp=new BigInteger(timeStamp_c);
@@ -86,8 +88,7 @@
           {
             Thread.sleep(100);
             url="http://"+key+":8080"+serverPath;
-            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag+"&localIP="+key;
-            //need update, localIP, using when need this parameter, except case remove.
+            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag;
 
             URL object=new URL(url);
           	HttpURLConnection con=(HttpURLConnection) object.openConnection();
@@ -100,6 +101,7 @@
           	send.flush();
           	send.close();
 
+            //need update, add check error code
             int responseCode=con.getResponseCode();
         	  out.println("[INFO] Send URL : "+url);
         		out.println("[INFO] Send Parameter : "+urlParameter);
@@ -140,18 +142,18 @@ serverPath varchar(30) NOT NULL,
 PRIMARY KEY (ip)
 );
 
-alter table node add column serverPath varchar(30) NOT NULL;
-alter table logchain modify timeStamp bigint;
-update node set serverPath="/jsp/storeLog.jsp" where ip='192.168.11.104';
-
 create table filehash(
 fileName varchar(30) NOT NULL,
 hash varchar(100) NOT NULL,
 PRIMARY KEY (fileName)
 );
 
-
 insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1", "/jsp/storeLog.jsp");
 insert into node values("192.168.11.105", "randd", "R&D-TEAM-PC-1", "/serv/storeLog.jsp");
 insert into node values("192.168.11.8", "1111", "HR-TEAM-PC-2", "/bckProject/storeLog.jsp");
+
+
+alter table node add column serverPath varchar(30) NOT NULL;
+alter table logchain modify timeStamp bigint;
+update node set serverPath="/jsp/storeLog.jsp" where ip='192.168.11.104';
 -->
