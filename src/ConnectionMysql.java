@@ -215,4 +215,80 @@ public class ConnectionMysql {
 		}
 		return false;
 	}
+	
+	static String getServerPath(String ip) throws SQLException {
+		
+		java.sql.Connection conn=null;
+		Statement stmt=null;
+		ResultSet rs=null;
+		String res="";
+		String query="select * from node where ip='"+ip+"'";
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			stmt=conn.createStatement();
+			rs=stmt.executeQuery(query);
+			
+			if(rs.next())
+			{
+				res=rs.getString("serverPath");
+			}
+	
+		} catch(ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if(conn!=null)
+			{
+				try
+				{
+					conn.close();
+				} catch(Exception e)
+				{
+				}
+			}
+		}
+		return res;
+	}
+	
+static String getFileName(String kindOfLog) throws SQLException {
+		
+		java.sql.Connection conn=null;
+		Statement stmt=null;
+		ResultSet rs=null;
+		String res="";
+		String query="select * from filehash where fileName like '%"+kindOfLog+"%'";
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			stmt=conn.createStatement();
+			rs=stmt.executeQuery(query);
+			
+			if(rs.next())
+			{
+				res=rs.getString("fileName");
+			}
+	
+		} catch(ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if(conn!=null)
+			{
+				try
+				{
+					conn.close();
+				} catch(Exception e)
+				{
+				}
+			}
+		}
+		return res;
+	}
 }

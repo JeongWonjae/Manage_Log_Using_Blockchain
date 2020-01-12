@@ -56,6 +56,6 @@ public class test {
 		
 		System.out.println(ModifyLog.lastFileHash(fileName));*/
 		
-		System.out.println(ConnectionMysql.isExist("select * from node", "ip", "192.168.11.102"));
+		System.out.println(ConnectionMysql.getFileName("wtmp"));
 	}
 }
