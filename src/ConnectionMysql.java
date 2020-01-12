@@ -113,7 +113,7 @@ public class ConnectionMysql {
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		
-		String query="insert into fileHash values("+"'"+fileName+"'"+",'"+fileHash+"')";
+		String query="insert into filehash values("+"'"+fileName+"'"+",'"+fileHash+"')";
 		
 		try
 		{
@@ -143,7 +143,7 @@ public class ConnectionMysql {
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		
-		String query="update fileHash set hash='"+fileHash+"' where fileName='"+fileName+"'";
+		String query="update filehash set hash='"+fileHash+"' where fileName='"+fileName+"'";
 		
 		try
 		{

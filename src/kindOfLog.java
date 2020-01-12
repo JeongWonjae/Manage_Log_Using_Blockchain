@@ -38,7 +38,7 @@ public class kindOfLog {
 			}
 			
 			//save file hash
-			if(ConnectionMysql.isExist("select * from fileHash", "fileName", fileName)==true)
+			if(ConnectionMysql.isExist("select * from filehash", "fileName", fileName)==true)
 			{
 				ModifyLog.updateFileHash(fileName, currentFileHash);
 			}else

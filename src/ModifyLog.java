@@ -57,7 +57,7 @@ public class ModifyLog {
 		
 		String fileHash="";
 		String query="";
-		query="select hash from fileHash where fileName='"+fileName+"'";
+		query="select hash from filehash where fileName='"+fileName+"'";
 		fileHash=ConnectionMysql.queryReturnString(query, "hash");
 		
 		return fileHash;
