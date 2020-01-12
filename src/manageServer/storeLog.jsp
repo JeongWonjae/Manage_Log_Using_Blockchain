@@ -1,5 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%@ page language="java" import="java.util.*,java.text.*,java.io.*,java.sql.*,java.math.*" %>
+<%@ page language="java" import="java.io.DataOutputStream,java.util.*,java.text.*,java.io.*,java.sql.*,java.math.*,java.net.HttpURLConnection,java.net.URL" %>
 <% request.setCharacterEncoding("UTF-8"); %>
 
 <%
@@ -7,7 +7,7 @@
   String log=request.getParameter("log");
   String hash=request.getParameter("hash");
   String pHash=request.getParameter("pHash");
-  String localIP=request.getParameter("localIP");
+  String localIP=request.getParameter("localIP"); //need update, using when need this parameter, except case remove.
   //String nonce=reqeust.getParameter("nonce"); //need update
   String timeStamp_c=request.getParameter("timeStamp");
   BigInteger timeStamp=new BigInteger(timeStamp_c);
@@ -33,6 +33,9 @@
   String key=null;
   String serverPath=null;
 
+  String url="";
+  String urlParameter="";
+
   try
   {
       Class.forName("com.mysql.jdbc.Driver");
@@ -42,11 +45,15 @@
       rs_callIP=stmt_callIP.executeQuery(sql);
       while(rs_callIP.next())
       {
-        if(!(localIP.equals(rs_callIP.getString("ip"))))
-        participateNode.put(rs_callIP.getString("ip"), rs_callIP.getString("serverPath"));
+        if(localIP.equals(rs_callIP.getString("ip")))
+        {
+        } else
+        {
+          participateNode.put(rs_callIP.getString("ip"), rs_callIP.getString("serverPath"));
+        }
       }
 
-      sql="select max(blockID) as count from Logchain";
+      sql="select max(blockID) as count from logchain";
       stmt_callBlockID=conn.createStatement();
       rs_callBlockID=stmt_callBlockID.executeQuery(sql);
       if(rs_callBlockID.next() && rs_callBlockID.getString("count")!=null)
@@ -59,7 +66,7 @@
         blockID=1;
       }
 
-      sql="insert into Logchain values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+")";
+      sql="insert into logchain values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+")";
       stmt_addBlock=conn.createStatement();
       stmt_addBlock.executeUpdate(sql);
 
@@ -74,9 +81,36 @@
         {
           key=(String)iterator.next();
           serverPath=participateNode.get(key);
-          path="http://"+key+":8080"+serverPath+"?ip="+ip+"&log="+log+"&hash="+hash
-				        +"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag; //need update
-          response.sendRedirect(path); //need update
+
+          try
+          {
+            Thread.sleep(100);
+            url="http://"+key+":8080"+serverPath;
+            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag+"&localIP="+key;
+            //need update, localIP, using when need this parameter, except case remove.
+
+            URL object=new URL(url);
+          	HttpURLConnection con=(HttpURLConnection) object.openConnection();
+          	con.setRequestMethod("POST");
+          	con.setConnectTimeout(1000);
+          	con.setDoOutput(true);
+
+          	DataOutputStream send=new DataOutputStream(con.getOutputStream());
+          	send.writeBytes(urlParameter);
+          	send.flush();
+          	send.close();
+
+            int responseCode=con.getResponseCode();
+        	  out.println("[INFO] Send URL : "+url);
+        		out.println("[INFO] Send Parameter : "+urlParameter);
+        		out.println("[INFO] Response Code : "+responseCode);
+            out.println("//////");
+
+          } catch (Exception e)
+          {
+            e.printStackTrace();
+          }
+
         }
       }
   } catch (ClassNotFoundException e)
@@ -86,7 +120,7 @@
 %>
 
 <!--
-create database logBCK_Project;
+create database logbck_project;
 
 create table logchain(
 blockID bigint NOT NULL,
@@ -95,7 +129,7 @@ log varchar(100) NOT NULL,
 hash varchar(100) NOT NULL,
 pHash varchar(100) NOT NULL,
 timeStamp bigint NOT NULL,
-PRIMARY KEY (ip)
+PRIMARY KEY (hash, pHash)
 );
 
 create table node(
@@ -106,16 +140,18 @@ serverPath varchar(30) NOT NULL,
 PRIMARY KEY (ip)
 );
 
-insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1");
-
-
 alter table node add column serverPath varchar(30) NOT NULL;
 alter table logchain modify timeStamp bigint;
 update node set serverPath="/jsp/storeLog.jsp" where ip='192.168.11.104';
 
-create table fileHash(
+create table filehash(
 fileName varchar(30) NOT NULL,
 hash varchar(100) NOT NULL,
 PRIMARY KEY (fileName)
-)
+);
+
+
+insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1", "/jsp/storeLog.jsp");
+insert into node values("192.168.11.105", "randd", "R&D-TEAM-PC-1", "/serv/storeLog.jsp");
+insert into node values("192.168.11.8", "1111", "HR-TEAM-PC-2", "/bckProject/storeLog.jsp");
 -->
