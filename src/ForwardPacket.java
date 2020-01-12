@@ -9,8 +9,7 @@ public class ForwardPacket {
 		Thread.sleep(100); //need update, block ID add
 		String url="http://"+localIP+":8080"+serverPath;
 		String urlParameter="ip="+bk.ip+"&log="+bk.log+"&hash="+bk.hash+"&pHash="
-				+bk.allocatePreviousHash+"&localIP="+localIP+"&timeStamp="+bk.timeStamp+"&sendedFlag=0";
-		//need update, sendedFlag=0
+				+bk.allocatePreviousHash+"&timeStamp="+bk.timeStamp+"&sendedFlag=1";
 		
 		URL object=new URL(url);
 		HttpURLConnection con=(HttpURLConnection) object.openConnection();
@@ -31,7 +30,6 @@ public class ForwardPacket {
 		
 		System.out.println("[INFO] Error check...");
 		errorCheck(bk, localIP, serverPath, responseCode);
-		
 	}
 	
 	static void errorCheck(BlockStructure bk, String localIP, String serverPath, int responseCode) throws Exception {

@@ -21,7 +21,6 @@ public class Block {
 
 class BlockStructure{
 	
-	int blockID;
 	String ip;
 	String log;
 	String hash;
@@ -33,6 +32,13 @@ class BlockStructure{
 	BlockStructure(String ip, String log){
 		this.ip=ip;
 		this.log=log;
+		/*
+		if(isexist ~~ pHash){
+			getreturnString() ~~ gethash
+		}else{
+			previousHash="first block";
+		} 
+		 */
 		this.allocatePreviousHash=previousHash;
 		this.hash=Hash.makeHash(log, allocatePreviousHash);
 		previousHash=hash;
@@ -40,6 +46,5 @@ class BlockStructure{
 		//this.importanceLevel=importanceLevel;
 	}
 }
-//(+)take out 'blockID' to Database
 //(+)take out 'previousHash' to Database
  
