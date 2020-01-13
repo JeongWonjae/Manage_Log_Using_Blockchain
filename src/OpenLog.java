@@ -4,10 +4,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class OpenLog {
 	
-	static String[] wtmp(String fileName) {
+	static ArrayList<String> wtmpNmessages(String fileName) {
 		
 		String starttime=LocalDateTime.now().format(DateTimeFormatter.ofPattern("MMddHHmm"));
 		int currentTime=0;
@@ -15,28 +16,21 @@ public class OpenLog {
 		//store part of log (tmp var)
 		String readLogLine;
 		//store all of log
-		String allLogArr[]=new String[1024];
-		
-		//init allLogArr
-		for(int i=0;i<allLogArr.length;i++) {
-			allLogArr[i]=null;
-		}
+		ArrayList<String> allLogArr=new ArrayList<String>();
 		
 		try 
 		{
 			File file=new File(fileName);
 			oReader=new BufferedReader(new FileReader(file));
 			
-			int allLogArrIndex=0;
 			while((readLogLine=oReader.readLine())!=null)
 			{
 				if(readLogLine.contains(":"))
 				{
-					currentTime=LogTime.getCurrentTimeWtmp(readLogLine);
+					currentTime=LogTime.getCurrentTimewtmpNmessages(readLogLine);
 					 if(SubTool.toInt(starttime)<currentTime) //need update
 					 {
-					 	allLogArr[allLogArrIndex]=readLogLine;
-					 	allLogArrIndex+=1;
+						allLogArr.add(readLogLine);
 					 	//(+)year problem...
 					 }
 				}

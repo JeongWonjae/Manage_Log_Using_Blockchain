@@ -1,7 +1,7 @@
 
 public class LogTime {
 	
-	static int getCurrentTimeWtmp(String readLogLine) {
+	static int getCurrentTimewtmpNmessages(String readLogLine) {
 		
 		String divideWords[]=new String[1024];
 		divideWords=SubTool.initArr(divideWords);
@@ -9,7 +9,7 @@ public class LogTime {
 		processedWords=SubTool.initArr(processedWords);
 		int pWsIndex=0;
 		String timeArr[]=new String[4];
-		String hourMin[]=new String[2]; //(tmp)
+		String hourMin[]=new String[3]; //(tmp)
 		String tmpForTime; //(tmp)
 		String strres;
 		int res;
@@ -25,7 +25,6 @@ public class LogTime {
 				pWsIndex++;
 			}
 		}
-		
 
 		for(int srchTime=0; srchTime<processedWords.length;srchTime++)
 		{

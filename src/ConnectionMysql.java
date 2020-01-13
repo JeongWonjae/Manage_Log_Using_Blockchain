@@ -300,7 +300,7 @@ static String getFileName(String kindOfLog) throws SQLException {
 		return res;
 	}
 
-	static String getLastPreviousHash() throws SQLException {
+	static String getLastPreviousHash(String kindOfLog) throws SQLException {
 	
 		java.sql.Connection conn=null;
 		Statement stmt=null;
@@ -313,7 +313,7 @@ static String getFileName(String kindOfLog) throws SQLException {
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
-			query="select hash from logchain where blockID=(select max(blockID) from logchain)";
+			query="select hash from logchain_"+kindOfLog+" where blockID=(select max(blockID) from logchain_"+kindOfLog+")";
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(query);
 			

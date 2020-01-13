@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class Block {
 
-	static ArrayList<BlockStructure> createBlock(String ip,String allLogArr[]) throws SQLException {
+	static ArrayList<BlockStructure> createBlock(String ip,ArrayList<String> allLogArr, String KindOfLog) throws SQLException {
 		
 		ArrayList<BlockStructure> bchain=new ArrayList<BlockStructure>();
 		
-		for(int i=0;i<allLogArr.length;i++) 
+		for(int i=0;i<allLogArr.size();i++) 
 		{
-			if(allLogArr[i]!=null)
+			if(allLogArr.get(i)!=null)
 			{
-				BlockStructure block=new BlockStructure(ip, allLogArr[i], i);
+				BlockStructure block=new BlockStructure(ip, allLogArr.get(i), i, KindOfLog);
 				bchain.add(block);
 			}
 		}
@@ -29,14 +29,20 @@ class BlockStructure{
 	long timeStamp;
 	int importanceLevel;
 	static String previousHash="first block";
+	static String lastKindOfLog="";
 	
-	BlockStructure(String ip, String log, int i) throws SQLException{
+	BlockStructure(String ip, String log, int i, String kindOfLog) throws SQLException{
 		this.ip=ip;
 		this.log=log;
 		
-		if(ConnectionMysql.isExist("select * from logchain", "hash", null)==true && i==0)
+		if(!lastKindOfLog.equals(kindOfLog))
 		{
-			previousHash=ConnectionMysql.getLastPreviousHash();
+			previousHash="first block";
+		}
+		
+		if(ConnectionMysql.isExist("select * from logchain_"+kindOfLog, "hash", null)==true && i==0)
+		{
+			previousHash=ConnectionMysql.getLastPreviousHash(kindOfLog);
 		}else
 		{
 		}
@@ -46,6 +52,7 @@ class BlockStructure{
 		previousHash=hash;
 		this.timeStamp=new Date().getTime();
 		//this.importanceLevel=importanceLevel;
+		lastKindOfLog=kindOfLog;
 	}
 }
 //(+)take out 'previousHash' to Database

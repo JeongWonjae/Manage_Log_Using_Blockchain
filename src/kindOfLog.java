@@ -2,20 +2,17 @@ import java.util.ArrayList;
 
 public class kindOfLog {
 
-	static void wtmp(String KindOfLog, String localIP) throws Exception { // /var/log/wtmp : last
+	// /var/log/wtmp : last && /var/log/messages
+	static void wtmpNmessages(String KindOfLog, String localIP) throws Exception { 
 		
 		String fileName=ConnectionMysql.getFileName(KindOfLog);
 		String currentFileHash=ModifyLog.getFileHash(fileName);
 		String lastFileHash="";
-		String log[]=new String[1024];
+		ArrayList<String> log=new ArrayList<String>();
 		ArrayList<BlockStructure> logchain=new ArrayList<BlockStructure>();
-		
-		//for testing. remove later//
-		String lastLogFileHash="13d87338d5abf7d1fb1fbffee23c6f1a6e4416fd21c6ff0c59ed5dd56122bb";
 		String serverPath=ConnectionMysql.getServerPath(localIP);
 		
 		//compare file hash.
-		/*
 		if(ConnectionMysql.isExist("select * from fileHash", "fileName", fileName)==true)
 		{
 			lastFileHash=ModifyLog.lastFileHash(fileName);
@@ -23,18 +20,20 @@ public class kindOfLog {
 		{
 			lastFileHash=ModifyLog.getFileHash(fileName);
 		}
-		*/
 		
-		log=OpenLog.wtmp(fileName);
+		//remove later, for testing
+		lastFileHash="";
+		
+		log=OpenLog.wtmpNmessages(fileName);
 		
 		//check file hash
 		if(!currentFileHash.equals(lastFileHash))
 		{
-			logchain=Block.createBlock(localIP , log);
+			logchain=Block.createBlock(localIP, log, KindOfLog);
 			
 			for(BlockStructure bk : logchain)
 			{
-				ForwardPacket.sendServer(bk , localIP, serverPath);
+				ForwardPacket.sendServer(bk , localIP, serverPath, KindOfLog);
 			}
 			
 			//save file hash
@@ -49,10 +48,6 @@ public class kindOfLog {
 	}
 	
 	static void secure() { // /var/log/secure
-		
-	}
-	
-	static void messages() { // /var/log/message
 		
 	}
 	
