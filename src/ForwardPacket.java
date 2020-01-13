@@ -6,7 +6,7 @@ public class ForwardPacket {
 	
 	static void sendServer(BlockStructure bk, String localIP, String serverPath) throws Exception {
 		
-		Thread.sleep(100); //need update, block ID add
+		Thread.sleep(300); //need update, block ID add
 		String url="http://"+localIP+":8080"+serverPath;
 		String urlParameter="ip="+bk.ip+"&log="+bk.log+"&hash="+bk.hash+"&pHash="
 				+bk.allocatePreviousHash+"&timeStamp="+bk.timeStamp+"&sendedFlag=1";

@@ -56,6 +56,10 @@ public class test {
 		
 		System.out.println(ModifyLog.lastFileHash(fileName));*/
 		
-		System.out.println(ConnectionMysql.getFileName("wtmp"));
+		//System.out.println(ConnectionMysql.getFileName("wtmp"));
+		
+		 if(ConnectionMysql.isExist("select * from logchain", "pHash", null)==true) {
+			 System.out.println("d");
+		 }
 	}
 }

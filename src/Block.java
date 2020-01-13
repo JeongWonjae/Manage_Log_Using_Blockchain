@@ -1,9 +1,10 @@
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Block {
 
-	static ArrayList<BlockStructure> createBlock(String ip,String allLogArr[]) {
+	static ArrayList<BlockStructure> createBlock(String ip,String allLogArr[]) throws SQLException {
 		
 		ArrayList<BlockStructure> bchain=new ArrayList<BlockStructure>();
 		
@@ -11,7 +12,7 @@ public class Block {
 		{
 			if(allLogArr[i]!=null)
 			{
-				BlockStructure block=new BlockStructure(ip, allLogArr[i]);
+				BlockStructure block=new BlockStructure(ip, allLogArr[i], i);
 				bchain.add(block);
 			}
 		}
@@ -29,16 +30,17 @@ class BlockStructure{
 	int importanceLevel;
 	static String previousHash="first block";
 	
-	BlockStructure(String ip, String log){
+	BlockStructure(String ip, String log, int i) throws SQLException{
 		this.ip=ip;
 		this.log=log;
-		/*
-		if(isexist ~~ pHash){
-			getreturnString() ~~ gethash
-		}else{
-			previousHash="first block";
-		} 
-		 */
+		
+		if(ConnectionMysql.isExist("select * from logchain", "hash", null)==true && i==0)
+		{
+			previousHash=ConnectionMysql.getLastPreviousHash();
+		}else
+		{
+		}
+		
 		this.allocatePreviousHash=previousHash;
 		this.hash=Hash.makeHash(log, allocatePreviousHash);
 		previousHash=hash;

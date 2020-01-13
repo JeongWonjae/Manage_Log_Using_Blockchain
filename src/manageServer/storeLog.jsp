@@ -118,6 +118,18 @@
   } catch (ClassNotFoundException e)
   {
     out.println(e.getMessage()+"<br>");
+  } finally
+  {
+    if(conn!=null)
+    {
+      try
+      {
+        conn.close();
+      } catch(Exeption e)
+      {
+      }
+      }
+    }
   }
 %>
 

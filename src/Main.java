@@ -16,7 +16,7 @@ public class Main {
 		
 		kindOfLog.wtmp(logName, localIP);
 		
-		//need scan close
+		scan.close();
 	}
 }
 
@@ -27,8 +27,8 @@ public class Main {
 (완료)파일이름이랑 아이퍼, 서버경로 사용자로부터 받는걸로 수정.
 (완료)로그파일마다 메소드 만들기
 (완료)패킷 날렸을때 반응이 200이 아니면 다시 보내기
+(완료)이전 해시 블럭가져오는 코드 추가.
 로그파일마다 메소드 채우기.
 프리페얼드 서버코드 시큐어코딩하기.
-이전 해시 블럭가져오는 코드 추가.
 GUI 화면 추가.
  */

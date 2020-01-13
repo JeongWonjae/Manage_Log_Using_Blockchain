@@ -174,7 +174,15 @@ public class ConnectionMysql {
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		ResultSet rs=null;
-		query=query+" where "+findAttributeName+"='"+findAttributeValue+"'";
+		
+		if(findAttributeValue==null)
+		{
+			query=query;
+		}else
+		{
+			query=query+" where "+findAttributeName+"='"+findAttributeValue+"'";
+		}
+		
 		int is=0;
 		
 		try
@@ -272,6 +280,46 @@ static String getFileName(String kindOfLog) throws SQLException {
 			if(rs.next())
 			{
 				res=rs.getString("fileName");
+			}
+	
+		} catch(ClassNotFoundException e)
+		{
+			e.printStackTrace();
+		} finally
+		{
+			if(conn!=null)
+			{
+				try
+				{
+					conn.close();
+				} catch(Exception e)
+				{
+				}
+			}
+		}
+		return res;
+	}
+
+	static String getLastPreviousHash() throws SQLException {
+	
+		java.sql.Connection conn=null;
+		Statement stmt=null;
+		ResultSet rs=null;
+		
+		String res="";
+		String query="";
+		
+		try
+		{
+			Class.forName("com.mysql.jdbc.Driver");
+			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
+			query="select hash from logchain where blockID=(select max(blockID) from logchain)";
+			stmt=conn.createStatement();
+			rs=stmt.executeQuery(query);
+			
+			if(rs.next())
+			{
+				res=rs.getString("hash");
 			}
 	
 		} catch(ClassNotFoundException e)
