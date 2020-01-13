@@ -12,6 +12,7 @@
   String pHash=request.getParameter("pHash");
   //String nonce=reqeust.getParameter("nonce"); //need update
   String timeStamp_c=request.getParameter("timeStamp");
+  String kindOfLog=request.getParameter("kindOfLog");
   BigInteger timeStamp=new BigInteger(timeStamp_c);
   String path;
   String sendedFlag_c=request.getParameter("sendedFlag");
@@ -55,7 +56,7 @@
         }
       }
 
-      sql="select max(blockID) as count from logchain";
+      sql="select max(blockID) as count from logchain_"+kindOfLog;
       stmt_callBlockID=conn.createStatement();
       rs_callBlockID=stmt_callBlockID.executeQuery(sql);
       if(rs_callBlockID.next() && rs_callBlockID.getString("count")!=null)
@@ -68,7 +69,7 @@
         blockID=1;
       }
 
-      sql="insert into logchain values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+")";
+      sql="insert into logchain_"+kindOfLog+" values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+")";
       stmt_addBlock=conn.createStatement();
       stmt_addBlock.executeUpdate(sql);
 
@@ -88,7 +89,7 @@
           {
             Thread.sleep(100);
             url="http://"+key+":8080"+serverPath;
-            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag;
+            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag+"&kindOfLog="+kindOfLog;
 
             URL object=new URL(url);
           	HttpURLConnection con=(HttpURLConnection) object.openConnection();
@@ -125,21 +126,31 @@
       try
       {
         conn.close();
-      } catch(Exeption e)
+      } catch(Exception e)
       {
-      }
       }
     }
   }
+
 %>
 
 <!--
 create database logbck_project;
 
-create table logchain(
+create table logchain_wtmp(
 blockID bigint NOT NULL,
 ip varchar(30) NOT NULL,
-log varchar(100) NOT NULL,
+log text NOT NULL,
+hash varchar(100) NOT NULL,
+pHash varchar(100) NOT NULL,
+timeStamp bigint NOT NULL,
+PRIMARY KEY (hash, pHash)
+);
+
+create table logchain_messages(
+blockID bigint NOT NULL,
+ip varchar(30) NOT NULL,
+log text NOT NULL,
 hash varchar(100) NOT NULL,
 pHash varchar(100) NOT NULL,
 timeStamp bigint NOT NULL,
@@ -168,4 +179,5 @@ insert into node values("192.168.11.8", "1111", "HR-TEAM-PC-2", "/bckProject/sto
 alter table node add column serverPath varchar(30) NOT NULL;
 alter table logchain modify timeStamp bigint;
 update node set serverPath="/jsp/storeLog.jsp" where ip='192.168.11.104';
+insert into filehash values("A://logfile/messages.txt", "1")
 -->
