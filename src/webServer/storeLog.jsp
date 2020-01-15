@@ -110,11 +110,8 @@
           {
             //send to other hosts
             Thread.sleep(100);
-            //url="http://"+key+":8080"+serverPath;
-            //urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag+"&kindOfLog="+kindOfLog;
-
-            //remove later, for testing
-            url="http://localhost:8080/jsp/test2.jsp";
+            url="http://"+key+":8080"+serverPath;
+            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag+"&kindOfLog="+kindOfLog;
 
             //setup option
             URL object=new URL(url);
@@ -125,7 +122,7 @@
 
             //send
           	DataOutputStream send=new DataOutputStream(con.getOutputStream());
-          	//send.writeBytes(urlParameter);
+          	send.writeBytes(urlParameter);
           	send.flush();
           	send.close();
 
@@ -309,6 +306,18 @@ PRIMARY KEY (hash, pHash)
 );
 
 create table logchain_messages(
+blockID bigint NOT NULL,
+ip varchar(30) NOT NULL,
+log text NOT NULL,
+hash varchar(100) NOT NULL,
+pHash varchar(100) NOT NULL,
+timeStamp bigint NOT NULL,
+valid int not null,
+CONSTRAINT validCheck check (valid in (0, 1, 4)),
+PRIMARY KEY (hash, pHash)
+);
+
+create table logchain_boot(
 blockID bigint NOT NULL,
 ip varchar(30) NOT NULL,
 log text NOT NULL,
