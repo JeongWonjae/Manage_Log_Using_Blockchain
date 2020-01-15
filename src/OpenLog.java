@@ -50,4 +50,35 @@ public class OpenLog {
 		}
 		return allLogArr;
 	}
+	
+	static ArrayList<String> boot(String fileName){
+		
+		BufferedReader oReader=null;
+		String readLogLine;
+		ArrayList<String> allLogArr=new ArrayList<String>();
+		
+		try 
+		{
+			File file=new File(fileName);
+			oReader=new BufferedReader(new FileReader(file));
+			
+			while((readLogLine=oReader.readLine())!=null)
+			{
+				allLogArr.add(readLogLine);
+			}
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		} finally 
+		{
+			try 
+			{
+				if(oReader!=null) oReader.close();
+			} catch(IOException e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return allLogArr;
+	}
 }

@@ -7,12 +7,13 @@ public class ForwardPacket {
 	
 	static void sendServer(BlockStructure bk, String localIP, String serverPath, String kindOfLog) throws Exception {
 		
-		Thread.sleep(300); //need update, block ID add
+		Thread.sleep(300);
 		String encodeLog=URLEncoder.encode(bk.log, "UTF-8");
 		String url="http://"+localIP+":8080"+serverPath;
 		
 		String urlParameter="ip="+bk.ip+"&log="+encodeLog+"&hash="+bk.hash+"&pHash="
 				+bk.allocatePreviousHash+"&timeStamp="+bk.timeStamp+"&sendedFlag=1"+"&kindOfLog="+kindOfLog;
+		//need update, senndedFlag=0
 		
 		URL object=new URL(url);
 		HttpURLConnection con=(HttpURLConnection) object.openConnection();

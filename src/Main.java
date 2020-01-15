@@ -19,10 +19,12 @@ public class Main {
 		String localIP="192.168.11.104";
 		String logName="wtmp";
 		String logName2="messages";
+		String logName3="boot";
 		
 		//logchain start
-		kindOfLog.wtmpNmessages(logName, localIP);
-		kindOfLog.wtmpNmessages(logName2, localIP);
+		//kindOfLog.wtmpNmessages(logName, localIP);
+		//kindOfLog.wtmpNmessages(logName2, localIP);
+		kindOfLog.boot(logName3, localIP);
 		
 	}
 }
@@ -37,7 +39,7 @@ public class Main {
 (완료)이전 해시 블럭가져오는 코드 추가.
 (완료)문자열 걸러내는 코드 추가.
 (완료)보내는 패킷에 로그 파일 종류 추가.
-~진행~로그 추가할 때 응답 기다리기
+(완료)로그 추가할 때 응답 기다리기
 ~진행~로그파일마다 디비 추가.
 ~진행~로그파일마다 메소드 채우기.
 프리페얼드 서버코드 시큐어코딩하기.

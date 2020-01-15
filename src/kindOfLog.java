@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class kindOfLog {
@@ -18,7 +20,7 @@ public class kindOfLog {
 			lastFileHash=ModifyLog.lastFileHash(fileName);
 		}else
 		{
-			lastFileHash=ModifyLog.getFileHash(fileName);
+			lastFileHash="";
 		}
 		
 		//remove later, for testing
@@ -55,8 +57,48 @@ public class kindOfLog {
 		
 	}
 	
-	static void boot() { // /var/log/boot.log
+	static void boot(String KindOfLog, String localIP) throws Exception { // /var/log/boot.log
 		
+		String fileName=ConnectionMysql.getFileName(KindOfLog);
+		String currentFileHash=ModifyLog.getFileHash(fileName);
+		String lastFileHash="";
+		ArrayList<String> log=new ArrayList<String>();
+		ArrayList<BlockStructure> logchain=new ArrayList<BlockStructure>();
+		String serverPath=ConnectionMysql.getServerPath(localIP);
+		
+		//compare file hash.
+		if(ConnectionMysql.isExist("select * from fileHash", "fileName", fileName)==true)
+		{
+			lastFileHash=ModifyLog.lastFileHash(fileName);
+		}else
+		{
+			lastFileHash="";
+		}
+		
+		//remove later, for testing
+		lastFileHash="";
+		
+		log=OpenLog.boot(fileName);
+		
+		//check file hash
+		if(!currentFileHash.equals(lastFileHash))
+		{
+			logchain=Block.createBlock(localIP, log, KindOfLog);
+			
+			for(BlockStructure bk : logchain)
+			{
+				ForwardPacket.sendServer(bk , localIP, serverPath, KindOfLog);
+			}
+			
+			//save file hash
+			if(ConnectionMysql.isExist("select * from filehash", "fileName", fileName)==true)
+			{
+				ModifyLog.updateFileHash(fileName, currentFileHash);
+			}else
+			{
+				ModifyLog.saveFileHash(fileName, currentFileHash);
+			}
+		}
 	}
 	
 	static void btmp() { // /var/log/btmp : lastb
