@@ -53,11 +53,11 @@ public class ModifyLog {
 		return fileHash;
 	}
 	
-	static String lastFileHash(String fileName) throws SQLException { //need update
+	static String lastFileHash(String filePath) throws SQLException { //need update
 		
 		String fileHash="";
 		String query="";
-		query="select hash from filehash where fileName='"+fileName+"'";
+		query="select hash from filehash where filePath='"+filePath+"'";
 		fileHash=ConnectionMysql.queryReturnString(query, "hash");
 		
 		return fileHash;

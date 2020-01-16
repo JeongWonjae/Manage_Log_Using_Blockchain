@@ -8,6 +8,7 @@ public class ForwardPacket {
 	static void sendServer(BlockStructure bk, String localIP, String serverPath, String kindOfLog) throws Exception {
 		
 		Thread.sleep(300);
+		bk.log=(bk.log).replaceAll("'", "");
 		String encodeLog=URLEncoder.encode(bk.log, "UTF-8");
 		String url="http://"+localIP+":8080"+serverPath;
 		

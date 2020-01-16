@@ -1,6 +1,8 @@
+import java.math.BigInteger;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Block {
 
@@ -26,7 +28,8 @@ class BlockStructure{
 	String log;
 	String hash;
 	String allocatePreviousHash;
-	long timeStamp;
+	String timeStamp_s;
+	BigInteger timeStamp=new BigInteger("0");
 	int importanceLevel;
 	static String previousHash="first block";
 	static String lastKindOfLog="";
@@ -42,7 +45,7 @@ class BlockStructure{
 		
 		if(ConnectionMysql.isExist("select * from logchain_"+kindOfLog, "hash", null)==true && i==0)
 		{
-			previousHash=ConnectionMysql.getLastPreviousHash(kindOfLog);
+			previousHash=ConnectionMysql.getLastPreviousStringValue(kindOfLog, "hash");
 		}else
 		{
 		}
@@ -50,10 +53,10 @@ class BlockStructure{
 		this.allocatePreviousHash=previousHash;
 		this.hash=Hash.makeHash(log, allocatePreviousHash);
 		previousHash=hash;
-		this.timeStamp=new Date().getTime();
+		this.timeStamp_s=LocalDateTime.now().format(DateTimeFormatter.ofPattern("YYYYMMddHHmmss"));
+		this.timeStamp=new BigInteger(timeStamp_s);
 		//this.importanceLevel=importanceLevel;
 		lastKindOfLog=kindOfLog;
 	}
 }
-//(+)take out 'previousHash' to Database
  

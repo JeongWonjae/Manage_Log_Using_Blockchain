@@ -20,12 +20,20 @@ public class Main {
 		String logName="wtmp";
 		String logName2="messages";
 		String logName3="boot";
+		String logName4="auth";
+		String logName5="daemon";
+		String logName6="user";
+		String logName7="dpkg";
 		
 		//logchain start
-		//kindOfLog.wtmpNmessages(logName, localIP);
-		//kindOfLog.wtmpNmessages(logName2, localIP);
-		kindOfLog.boot(logName3, localIP);
-		
+		kindOfLog.EnrollLogBlock(logName, localIP);
+		kindOfLog.EnrollLogBlock(logName2, localIP);
+		kindOfLog.EnrollLogBlock(logName3, localIP);
+		kindOfLog.EnrollLogBlock(logName4, localIP);
+		kindOfLog.EnrollLogBlock(logName5, localIP);
+		kindOfLog.EnrollLogBlock(logName6, localIP);
+		kindOfLog.EnrollLogBlock(logName7, localIP);
+
 	}
 }
 
@@ -40,9 +48,11 @@ public class Main {
 (완료)문자열 걸러내는 코드 추가.
 (완료)보내는 패킷에 로그 파일 종류 추가.
 (완료)로그 추가할 때 응답 기다리기
-~진행~로그파일마다 디비 추가.
-~진행~로그파일마다 메소드 채우기.
+(완료)진행~로그파일마다 디비 추가.
+(완료)로그파일마다 메소드 채우기.
+(완료)fileName->filePath 로 수정하기.
+(완료)timeStamp구하는방식 변경.
 프리페얼드 서버코드 시큐어코딩하기.
 GUI 화면 추가.
-sended->sent로 수정하기.
+서버코드에서 sendedFlag->sentFlag로 수정하기.
  */

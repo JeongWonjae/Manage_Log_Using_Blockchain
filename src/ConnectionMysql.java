@@ -108,12 +108,12 @@ public class ConnectionMysql {
 		return res;
 	}
 	
-	static void insertIntoFileHash(String fileName,String fileHash) throws SQLException {
+	static void insertIntoFileHash(String filePath,String fileHash) throws SQLException {
 		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		
-		String query="insert into filehash values("+"'"+fileName+"'"+",'"+fileHash+"')";
+		String query="insert into filehash values("+"'"+filePath+"'"+",'"+fileHash+"')";
 		
 		try
 		{
@@ -138,12 +138,12 @@ public class ConnectionMysql {
 		}
 	}
 	
-	static void updateSetFileHash(String fileName, String fileHash) throws SQLException{
+	static void updateSetFileHash(String filePath, String fileHash) throws SQLException{
 		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		
-		String query="update filehash set hash='"+fileHash+"' where fileName='"+fileName+"'";
+		String query="update filehash set hash='"+fileHash+"' where filePath='"+filePath+"'";
 		
 		try
 		{
@@ -262,13 +262,13 @@ public class ConnectionMysql {
 		return res;
 	}
 	
-static String getFileName(String kindOfLog) throws SQLException {
+	static String getFilePath(String kindOfLog) throws SQLException {
 		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		ResultSet rs=null;
 		String res="";
-		String query="select * from filehash where fileName like '%"+kindOfLog+"%'";
+		String query="select * from filehash where filePath like '%"+kindOfLog+"%'";
 		
 		try
 		{
@@ -279,7 +279,7 @@ static String getFileName(String kindOfLog) throws SQLException {
 			
 			if(rs.next())
 			{
-				res=rs.getString("fileName");
+				res=rs.getString("filePath");
 			}
 	
 		} catch(ClassNotFoundException e)
@@ -300,7 +300,7 @@ static String getFileName(String kindOfLog) throws SQLException {
 		return res;
 	}
 
-	static String getLastPreviousHash(String kindOfLog) throws SQLException {
+	static String getLastPreviousStringValue(String kindOfLog, String attributeName) throws SQLException {
 	
 		java.sql.Connection conn=null;
 		Statement stmt=null;
@@ -313,13 +313,13 @@ static String getFileName(String kindOfLog) throws SQLException {
 		{
 			Class.forName("com.mysql.jdbc.Driver");
 			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
-			query="select hash from logchain_"+kindOfLog+" where blockID=(select max(blockID) from logchain_"+kindOfLog+")";
+			query="select "+attributeName+" from logchain_"+kindOfLog+" where blockID=(select max(blockID) from logchain_"+kindOfLog+")";
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(query);
 			
 			if(rs.next())
 			{
-				res=rs.getString("hash");
+				res=rs.getString(attributeName);
 			}
 	
 		} catch(ClassNotFoundException e)
@@ -339,4 +339,5 @@ static String getFileName(String kindOfLog) throws SQLException {
 		}
 		return res;
 	}
+
 }
