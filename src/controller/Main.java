@@ -1,3 +1,4 @@
+package controller;
 import java.util.Scanner;
 
 public class Main {
@@ -25,14 +26,16 @@ public class Main {
 		String logName6="user";
 		String logName7="dpkg";
 		
-		//logchain start
+		//log chain start
 		kindOfLog.EnrollLogBlock(logName, localIP);
+		/*
 		kindOfLog.EnrollLogBlock(logName2, localIP);
 		kindOfLog.EnrollLogBlock(logName3, localIP);
 		kindOfLog.EnrollLogBlock(logName4, localIP);
 		kindOfLog.EnrollLogBlock(logName5, localIP);
 		kindOfLog.EnrollLogBlock(logName6, localIP);
 		kindOfLog.EnrollLogBlock(logName7, localIP);
+		*/
 
 	}
 }
@@ -52,7 +55,7 @@ public class Main {
 (완료)로그파일마다 메소드 채우기.
 (완료)fileName->filePath 로 수정하기.
 (완료)timeStamp구하는방식 변경.
-프리페얼드 서버코드 시큐어코딩하기.
-GUI 화면 추가.
-서버코드에서 sendedFlag->sentFlag로 수정하기.
+(완료)프리페얼드 서버코드 시큐어코딩하기.
+~진행중~GUI 화면 추가.
+(완료)서버코드에서 sendedFlag->sentFlag로 수정하기.
  */

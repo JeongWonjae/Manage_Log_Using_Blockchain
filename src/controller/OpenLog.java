@@ -1,3 +1,4 @@
+package controller;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -19,7 +20,11 @@ public class OpenLog {
 			
 			while((readLogLine=oReader.readLine())!=null)
 			{
-				allLogArr.add(readLogLine);
+				readLogLine=readLogLine.replaceAll("\n", "");
+				if(!(readLogLine.equals("")))
+				{
+					allLogArr.add(readLogLine);
+				}
 			}
 		} catch (IOException e) 
 		{

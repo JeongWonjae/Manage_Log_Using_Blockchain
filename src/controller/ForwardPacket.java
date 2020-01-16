@@ -1,3 +1,4 @@
+package controller;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -13,7 +14,7 @@ public class ForwardPacket {
 		String url="http://"+localIP+":8080"+serverPath;
 		
 		String urlParameter="ip="+bk.ip+"&log="+encodeLog+"&hash="+bk.hash+"&pHash="
-				+bk.allocatePreviousHash+"&timeStamp="+bk.timeStamp+"&sendedFlag=1"+"&kindOfLog="+kindOfLog;
+				+bk.allocatePreviousHash+"&timeStamp="+bk.timeStamp+"&sentFlag=0"+"&kindOfLog="+kindOfLog;
 		//need update, senndedFlag=0
 		
 		URL object=new URL(url);
