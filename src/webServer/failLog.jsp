@@ -10,8 +10,8 @@
 
   String sql=null;
   Connection conn=null;
-  Statement stmt_setValid=null;
-  Statement stmt_checkValid=null;
+  PreparedStatement pstmt_setValid=null;
+  PreparedStatement pstmt_checkValid=null;
   ResultSet rs_checkValid=null;
 
   try
@@ -21,14 +21,16 @@
     conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false","root","root");
 
     //set valid 1->0
-    sql="update logchain_"+kindOfLog+" set valid=0 where "+"blockID="+blockID;
-    stmt_setValid=conn.createStatement();
-    stmt_setValid.executeUpdate(sql);
+    sql="update logchain_"kindOfLog+" set valid=0 where blockID=?";
+    pstmt_setValid=conn.prepareStatement(sql);
+    pstmt_setValid.setBigDecimal(1, new BigDecimal(blockID));
+    pstmt_setValid.executeUpdate();
 
     //get valid value
-    sql="select valid from logchain_"+kindOfLog+" where blockID="+blockID;
-    stmt_checkValid=conn.createStatement();
-    rs_checkValid=stmt_checkValid.executeQuery(sql);
+    sql="select valid from logchain_"kindOfLog+" where blockID=?";
+    pstmt_checkValid=conn.prepareStatement(sql);
+    pstmt_checkValid.setBigDecimal(1, new BigDecimal(blockID));
+    rs_checkValid=pstmt_checkValid.executeQuery();
     while(rs_checkValid.next())
     {
       if(Integer.parseInt(rs_checkValid.getString("valid"))==1) //success

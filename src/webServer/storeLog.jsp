@@ -15,8 +15,8 @@
   BigInteger timeStamp=new BigInteger(timeStamp_c);
   String kindOfLog=request.getParameter("kindOfLog");
   String path;
-  String sendedFlag_c=request.getParameter("sendedFlag");
-  int sendedFlag=Integer.parseInt(sendedFlag_c);
+  String sentFlag_c=request.getParameter("sentFlag");
+  int sentFlag=Integer.parseInt(sentFlag_c);
 
   int blockID=0;
   String blockID_s="";
@@ -24,8 +24,8 @@
   Connection conn=null;
 
   Statement stmt_callIP=null;
-  PreparedStatement pstmt_callIP=null;
   ResultSet rs_callIP=null;
+
   Statement stmt_callIPError=null;
   PreparedStatement pstmt_callIPError=null;
   ResultSet rs_callIPError=null;
@@ -34,6 +34,7 @@
   ResultSet rs_callBlockID=null;
 
   Statement stmt_addBlock=null;
+  PreparedStatement pstmt_addBlock=null;
 
   HashMap<String, String> participateNode=new HashMap<String, String>();
   HashMap<String, String> participateNodeError=new HashMap<String, String>();
@@ -69,7 +70,7 @@
       }
 
       //from other host
-      if(sendedFlag==1)
+      if(sentFlag==1)
       {
         //set response header
         response.setHeader("addBlockConfirm", "ACK");
@@ -89,14 +90,20 @@
         }
 
         //add block
-        sql="insert into logchain_"+kindOfLog+" values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+",1)";
-        stmt_addBlock=conn.createStatement();
-        stmt_addBlock.executeUpdate(sql);
+        sql="insert into logchain_"+kindOfLog+" values(?, ?, ?, ?, ?, ?, 1)";
+        pstmt_addBlock=conn.prepareStatement(sql);
+        pstmt_addBlock.setBigDecimal(1, new BigDecimal(blockID));
+        pstmt_addBlock.setString(2, ip);
+        pstmt_addBlock.setString(3, log);
+        pstmt_addBlock.setString(4, hash);
+        pstmt_addBlock.setString(5, pHash);
+        pstmt_addBlock.setBigDecimal(6, new BigDecimal(timeStamp));
+        pstmt_addBlock.executeUpdate();
 
       //from local host
-      }else if(sendedFlag==0)
+      }else if(sentFlag==0)
       {
-        sendedFlag=1;
+        sentFlag=1;
 
         Set setNode=participateNode.keySet();
         Iterator iterator=setNode.iterator();
@@ -111,7 +118,7 @@
             //send to other hosts
             Thread.sleep(100);
             url="http://"+key+":8080"+serverPath;
-            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sendedFlag="+sendedFlag+"&kindOfLog="+kindOfLog;
+            urlParameter="ip="+ip+"&log="+log+"&hash="+hash+"&pHash="+pHash+"&timeStamp="+timeStamp+"&sentFlag="+sentFlag+"&kindOfLog="+kindOfLog;
 
             //setup option
             URL object=new URL(url);
@@ -174,9 +181,15 @@
           }
 
           //add block
-          sql="insert into logchain_"+kindOfLog+" values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+",1"+")";
-          stmt_addBlock=conn.createStatement();
-          stmt_addBlock.executeUpdate(sql);
+          sql="insert into logchain_"+kindOfLog+" values(?, ?, ?, ?, ?, ?, 1)";
+          pstmt_addBlock=conn.prepareStatement(sql);
+          pstmt_addBlock.setBigDecimal(1, new BigDecimal(blockID));
+          pstmt_addBlock.setString(2, ip);
+          pstmt_addBlock.setString(3, log);
+          pstmt_addBlock.setString(4, hash);
+          pstmt_addBlock.setString(5, pHash);
+          pstmt_addBlock.setBigDecimal(6, new BigDecimal(timeStamp));
+          pstmt_addBlock.executeUpdate();
         }else //occured error by other hosts
         {
           //get blockID
@@ -199,7 +212,7 @@
           rs_callIPError=stmt_callIPError.executeQuery(sql);
           while(rs_callIPError.next())
           {
-            if(localIP.equals(rs_callIP.getString("ip")))
+            if(localIP.equals(rs_callIPError.getString("ip")))
             {
             } else
             {
@@ -260,14 +273,26 @@
       //modify fail log block
         if(modifyConfirmFlag==1)
         {
-          sql="insert into logchain_"+kindOfLog+" values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+",0"+")";
-          stmt_addBlock=conn.createStatement();
-          stmt_addBlock.executeUpdate(sql);
+          sql="insert into logchain_"+kindOfLog+" values(?, ?, ?, ?, ?, ?, 0)";
+          pstmt_addBlock=conn.prepareStatement(sql);
+          pstmt_addBlock.setBigDecimal(1, new BigDecimal(blockID));
+          pstmt_addBlock.setString(2, ip);
+          pstmt_addBlock.setString(3, log);
+          pstmt_addBlock.setString(4, hash);
+          pstmt_addBlock.setString(5, pHash);
+          pstmt_addBlock.setBigDecimal(6, new BigDecimal(timeStamp));
+          pstmt_addBlock.executeUpdate();
         }else if(modifyConfirmFlag==0)
         {
-          sql="insert into logchain_"+kindOfLog+" values("+blockID+",'"+ip+"'"+",'"+log+"'"+",'"+hash+"'"+",'"+pHash+"'"+","+timeStamp+",4"+")";
-          stmt_addBlock=conn.createStatement();
-          stmt_addBlock.executeUpdate(sql);
+          sql="insert into logchain_"+kindOfLog+" values(?, ?, ?, ?, ?, ?, 4)";
+          pstmt_addBlock=conn.prepareStatement(sql);
+          pstmt_addBlock.setBigDecimal(1, new BigDecimal(blockID));
+          pstmt_addBlock.setString(2, ip);
+          pstmt_addBlock.setString(3, log);
+          pstmt_addBlock.setString(4, hash);
+          pstmt_addBlock.setString(5, pHash);
+          pstmt_addBlock.setBigDecimal(6, new BigDecimal(timeStamp));
+          pstmt_addBlock.executeUpdate();
         }
       }
     }
@@ -413,10 +438,10 @@ PRIMARY KEY (ip)
 create table filehash(
 filePath varchar(30) NOT NULL,
 hash varchar(100) NOT NULL,
-PRIMARY KEY (fileName)
+PRIMARY KEY (filePath)
 );
 
-insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1", "/jsp/storeLog.jsp", "/jsp/failLog.jsp");
+insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1", "/jsp/bckProject/storeLog.jsp", "/jsp/bckProject/failLog.jsp");
 insert into node values("192.168.11.105", "randd", "R&D-TEAM-PC-1", "/serv/storeLog.jsp", "/serv/failLog.jsp");
 insert into node values("192.168.11.8", "1111", "HR-TEAM-PC-2", "/bckProject/storeLog.jsp", "/bckProject/failLog.jsp");
 
