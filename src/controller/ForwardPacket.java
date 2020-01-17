@@ -1,4 +1,5 @@
 package controller;
+import view.Frame;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -29,6 +30,8 @@ public class ForwardPacket {
 		send.close();
 		
 		int responseCode=con.getResponseCode();
+		
+		Frame.consoleTextArea.append(""); //need update
 		System.out.println("[INFO] Send URL : "+url);
 		System.out.println("[INFO] Send Parameter : "+urlParameter);
 		System.out.println("[INFO] Response Code : "+responseCode);

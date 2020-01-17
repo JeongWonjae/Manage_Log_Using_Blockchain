@@ -16,7 +16,7 @@ public class kindOfLog {
 	/var/log/boot.log
 	/var/log/dpkg
 	*/
-	static void EnrollLogBlock(String KindOfLog, String localIP) throws Exception {
+	public static void EnrollLogBlock(String KindOfLog, String localIP) throws Exception {
 		
 		String filePath=ConnectionMysql.getFilePath(KindOfLog);
 		String currentFileHash=ModifyLog.getFileHash(filePath);

@@ -1,4 +1,5 @@
 package controller;
+import view.Frame;
 import java.util.Scanner;
 
 public class Main {
@@ -6,37 +7,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		// TODO Auto-generated method stub
 		
-		/*
-		//input by user
-		Scanner scan=new Scanner(System.in);
-		System.out.print("[INFO] Input IP Address : ");
-		String localIP = scan.nextLine();
-		System.out.print("[INFO] Input Log Name : ");
-		String logName=scan.nextLine();
-		System.out.println("[INFO] Entered IP Address / Log Name : "+localIP+" / "+logName);
-		System.out.println();
-		scan.close();
-		*/
-		String localIP="192.168.11.104";
-		String logName="wtmp";
-		String logName2="messages";
-		String logName3="boot";
-		String logName4="auth";
-		String logName5="daemon";
-		String logName6="user";
-		String logName7="dpkg";
-		
-		//log chain start
-		kindOfLog.EnrollLogBlock(logName, localIP);
-		/*
-		kindOfLog.EnrollLogBlock(logName2, localIP);
-		kindOfLog.EnrollLogBlock(logName3, localIP);
-		kindOfLog.EnrollLogBlock(logName4, localIP);
-		kindOfLog.EnrollLogBlock(logName5, localIP);
-		kindOfLog.EnrollLogBlock(logName6, localIP);
-		kindOfLog.EnrollLogBlock(logName7, localIP);
-		*/
-
+		view.Frame.run();
 	}
 }
 
