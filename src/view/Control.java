@@ -1,8 +1,6 @@
 package view;
 
-import controller.SubTool;
 import controller.kindOfLog;
-import java.util.ArrayList;
 
 public class Control {
 	
@@ -14,6 +12,7 @@ public class Control {
 		
 		for(selectedLogArrIndex=0;selectedLogArrIndex<selectedLogArr.length;selectedLogArrIndex++)
 		{
+			Frame.consoleTextArea.append("[INFO] Send Packet about "+selectedLogArr[selectedLogArrIndex]+"\n");
 			kindOfLog.EnrollLogBlock(selectedLogArr[selectedLogArrIndex], localIP);
 		}
 	}

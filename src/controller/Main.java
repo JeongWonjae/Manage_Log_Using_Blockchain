@@ -27,6 +27,7 @@ public class Main {
 (완료)fileName->filePath 로 수정하기.
 (완료)timeStamp구하는방식 변경.
 (완료)프리페얼드 서버코드 시큐어코딩하기.
-~진행중~GUI 화면 추가.
+(완료)GUI 화면 추가.
 (완료)서버코드에서 sendedFlag->sentFlag로 수정하기.
+~진행중~정리, 테스트
  */

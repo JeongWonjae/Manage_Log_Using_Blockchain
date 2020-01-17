@@ -1,9 +1,10 @@
 package controller;
-import view.Frame;
 import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+
+import view.Frame;
 
 public class ForwardPacket {
 	
@@ -15,13 +16,13 @@ public class ForwardPacket {
 		String url="http://"+localIP+":8080"+serverPath;
 		
 		String urlParameter="ip="+bk.ip+"&log="+encodeLog+"&hash="+bk.hash+"&pHash="
-				+bk.allocatePreviousHash+"&timeStamp="+bk.timeStamp+"&sentFlag=0"+"&kindOfLog="+kindOfLog;
+				+bk.allocatePreviousHash+"&timeStamp="+bk.timeStamp+"&sentFlag=1"+"&kindOfLog="+kindOfLog;
 		//need update, senndedFlag=0
 		
 		URL object=new URL(url);
 		HttpURLConnection con=(HttpURLConnection) object.openConnection();
 		con.setRequestMethod("POST");
-		con.setConnectTimeout(1000);
+		con.setConnectTimeout(5000);
 		con.setDoOutput(true);
 		
 		DataOutputStream send=new DataOutputStream(con.getOutputStream());
@@ -31,13 +32,11 @@ public class ForwardPacket {
 		
 		int responseCode=con.getResponseCode();
 		
-		Frame.consoleTextArea.append(""); //need update
-		System.out.println("[INFO] Send URL : "+url);
-		System.out.println("[INFO] Send Parameter : "+urlParameter);
-		System.out.println("[INFO] Response Code : "+responseCode);
-		//need update, make method.
-		
-		System.out.println("[INFO] Error check...");
+		Frame.consoleTextArea.append("[INFO] Send URL : "+url+"\n"); //need update
+		Frame.consoleTextArea.append("[INFO] Send Parameter : "+urlParameter+"\n");
+		Frame.consoleTextArea.append("[INFO] Response Code : "+responseCode+"\n");
+	
+		Frame.consoleTextArea.append("[INFO] Error check..."+"\n");
 		errorCheck(bk, localIP, serverPath, responseCode, kindOfLog);
 	}
 	
@@ -45,15 +44,15 @@ public class ForwardPacket {
 		if(responseCode!=200) {
 			if(responseCode==500)
 			{
-				System.out.println("[ERROR] Server Inner Error.");
+				Frame.consoleTextArea.append("[ERROR] Server Inner Error."+"\n");
 				System.exit(200);
 			}
 			Thread.sleep(200);
-			System.out.println("[ERROR] Re-send by occured Error.");
+			Frame.consoleTextArea.append("[ERROR] Re-send by occured Error."+"\n");
 			sendServer(bk, localIP, serverPath, kindOfLog);
 		}else {
-			System.out.println("[INFO] Packet forwarding Success!");
-			System.out.println();
+			Frame.consoleTextArea.append("[INFO] Packet forwarding Success!"+"\n");
+			Frame.consoleTextArea.append("\n");
 		}
 	}
 }

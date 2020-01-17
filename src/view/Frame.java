@@ -11,11 +11,10 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class Frame extends JFrame {
 
@@ -32,6 +31,7 @@ public class Frame extends JFrame {
 	private JCheckBox bootCheckBox;
 	private JCheckBox messagesCheckBox;
 	private JCheckBox secureCheckBox;
+	private JScrollPane jscrollPane;
 
 	public static void run() {
 		EventQueue.invokeLater(new Runnable() 
@@ -62,10 +62,14 @@ public class Frame extends JFrame {
 		contentPane.setLayout(null);
 		setContentPane(contentPane);
 		
-		//text area
+		//text area, scroll
 		consoleTextArea = new JTextArea();
+		jscrollPane=new JScrollPane(consoleTextArea);
+		jscrollPane.setBounds(12, 10, 428, 441);
+		contentPane.add(jscrollPane);
+		consoleTextArea.setLineWrap(true);
 		consoleTextArea.setBounds(12, 10, 428, 441);
-		contentPane.add(consoleTextArea);
+		consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
 		
 		txtLocalIp = new JTextField();
 		txtLocalIp.setBounds(543, 22, 167, 30);
@@ -223,20 +227,20 @@ public class Frame extends JFrame {
 					selected+="secure/";
 				}
 				consoleTextArea.append("[INFO] Start log enrollment to Log BlockChain"+"\n");
-				
+				consoleTextArea.append("\n");
 				//call kindOfLog.EnrollLogBlock
-				try 
-				{
+				
+				try {
 					Control.start(txtLocalIp.getText(), selected);
 				} catch (Exception e1) 
 				{
-					e1.printStackTrace();
 				}
 				
 			}else {
 				Button.setText("Start log enrollment");
 				
 			}
+			
 		}
 	}
 	

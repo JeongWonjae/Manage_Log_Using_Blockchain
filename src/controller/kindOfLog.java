@@ -1,7 +1,7 @@
 package controller;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
+
+import view.Frame;
 
 public class kindOfLog {
 
@@ -73,7 +73,7 @@ public class kindOfLog {
 					ForwardPacket.sendServer(bk , localIP, serverPath, KindOfLog);
 				}else
 				{
-					System.out.println("[INFO] Failed. Already enrolled this log block -> "+bk.log+" / "+bk.hash);
+					Frame.consoleTextArea.append("[INFO] Failed. Already enrolled this log block -> "+bk.log+" / "+bk.hash+"\n");
 				}
 			}
 			
