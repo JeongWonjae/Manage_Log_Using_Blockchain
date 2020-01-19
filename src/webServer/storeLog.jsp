@@ -5,7 +5,6 @@
 <%
   //static value per client
   String localIP="192.168.11.104";
-
   String ip=request.getParameter("ip");
   String log=request.getParameter("log");
   String hash=request.getParameter("hash");
@@ -51,6 +50,7 @@
 
   try
   {
+      Thread.sleep(300);
       //connect database
       Class.forName("com.mysql.jdbc.Driver");
       conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false","root","root");
@@ -207,6 +207,7 @@
           }
 
           //get errorPath
+
           sql="select * from node";
           stmt_callIPError=conn.createStatement();
           rs_callIPError=stmt_callIPError.executeQuery(sql);
@@ -423,6 +424,18 @@ pHash varchar(100) NOT NULL,
 timeStamp bigint NOT NULL,
 valid int not null,
 CONSTRAINT dpkgValidCheck check (valid in (0, 1, 4)),
+PRIMARY KEY (hash, pHash)
+);
+
+create table logchain_secure(
+blockID bigint NOT NULL,
+ip varchar(30) NOT NULL,
+log text NOT NULL,
+hash varchar(100) NOT NULL,
+pHash varchar(100) NOT NULL,
+timeStamp bigint NOT NULL,
+valid int not null,
+CONSTRAINT secureValidCheck check (valid in (0, 1, 4)),
 PRIMARY KEY (hash, pHash)
 );
 
