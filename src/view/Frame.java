@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame{
 
 	private JPanel contentPane;
 	private JTextField txtLocalIp;
@@ -174,73 +174,21 @@ public class Frame extends JFrame {
 			{
 				Button.setText("Stop log enrollment");
 				consoleTextArea.append("[INFO] Local IP : "+txtLocalIp.getText()+"\n");
-				
-				//wtmp
-				if(wtmpCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/wtmp"+"\n");
-					selected+="wtmp/";
-				}
-				if(utmpCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/run/utmp"+"\n");
-					selected+="utmp/";
-				}
-				if(btmpCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/btmp"+"\n");
-					selected+="btmp/";
-				}
-				if(dpkgCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/dpkg"+"\n");
-					selected+="dpkg/";
-				}
-				if(authCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/auth"+"\n");
-					selected+="auth/";
-				}
-				if(userCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/user"+"\n");
-					selected+="user/";
-				}
-				if(daemonCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/daemon"+"\n");
-					selected+="daemon/";
-				}
-				if(bootCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/boot"+"\n");
-					selected+="boot/";
-				}
-				if(messagesCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/messages"+"\n");
-					selected+="messages/";
-				}
-				if(secureCheckBox.isSelected())
-				{
-					consoleTextArea.append("[INFO] Selected /var/log/secure"+"\n");
-					selected+="secure/";
-				}
+				selected=getLogName();
 				consoleTextArea.append("[INFO] Start log enrollment to Log BlockChain"+"\n");
 				consoleTextArea.append("\n");
-				//call kindOfLog.EnrollLogBlock
 				
-				try {
+				//call kindOfLog.EnrollLogBlock
+				try 
+				{
 					Control.start(txtLocalIp.getText(), selected);
 				} catch (Exception e1) 
 				{
+					e1.printStackTrace();
 				}
-				
 			}else {
 				Button.setText("Start log enrollment");
-				
 			}
-			
 		}
 	}
 	
@@ -272,6 +220,67 @@ public class Frame extends JFrame {
 				Button.setText("Start web server");
 			}
 		}
+	}
+	
+	public static void callTextArea(String content) {
+		consoleTextArea.append((content+"\n"));
+	}
+	
+	private String getLogName() {
+		String selected="";
+		
+		//wtmp
+		if(wtmpCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/wtmp"+"\n");
+			selected+="wtmp/";
+		}
+		if(utmpCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/run/utmp"+"\n");
+			selected+="utmp/";
+		}
+		if(btmpCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/btmp"+"\n");
+			selected+="btmp/";
+		}
+		if(dpkgCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/dpkg"+"\n");
+			selected+="dpkg/";
+		}
+		if(authCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/auth"+"\n");
+			selected+="auth/";
+		}
+		if(userCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/user"+"\n");
+			selected+="user/";
+		}
+		if(daemonCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/daemon"+"\n");
+			selected+="daemon/";
+		}
+		if(bootCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/boot"+"\n");
+			selected+="boot/";
+		}
+		if(messagesCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/messages"+"\n");
+			selected+="messages/";
+		}
+		if(secureCheckBox.isSelected())
+		{
+			consoleTextArea.append("[INFO] Selected /var/log/secure"+"\n");
+			selected+="secure/";
+		}
+		return selected;
 	}
 }
 

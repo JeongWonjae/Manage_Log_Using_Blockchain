@@ -12,12 +12,13 @@ public class Control {
 		
 		for(selectedLogArrIndex=0;selectedLogArrIndex<selectedLogArr.length;selectedLogArrIndex++)
 		{
-			Frame.consoleTextArea.append("[INFO] Send Packet about "+selectedLogArr[selectedLogArrIndex]+"\n");
+			Frame.callTextArea("[INFO] Send Packet about "+selectedLogArr[selectedLogArrIndex]);
 			kindOfLog.EnrollLogBlock(selectedLogArr[selectedLogArrIndex], localIP);
 		}
 	}
 	
 	public static void retry() {
+		
 	}
 	
 	public static void server() {

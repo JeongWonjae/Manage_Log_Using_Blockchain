@@ -32,27 +32,27 @@ public class ForwardPacket {
 		
 		int responseCode=con.getResponseCode();
 		
-		Frame.consoleTextArea.append("[INFO] Send URL : "+url+"\n"); //need update
-		Frame.consoleTextArea.append("[INFO] Send Parameter : "+urlParameter+"\n");
-		Frame.consoleTextArea.append("[INFO] Response Code : "+responseCode+"\n");
-	
-		Frame.consoleTextArea.append("[INFO] Error check..."+"\n");
+		
+		Frame.callTextArea("[INFO] Send URL : "+url);
+		Frame.callTextArea("[INFO] Send Parameter : "+urlParameter);
+		Frame.callTextArea("[INFO] Response Code : "+responseCode);
+		
+		Frame.callTextArea("[INFO] Error check...");
 		errorCheck(bk, localIP, serverPath, responseCode, kindOfLog);
 	}
 	
 	static void errorCheck(BlockStructure bk, String localIP, String serverPath, int responseCode, String kindOfLog) throws Exception {
 		if(responseCode!=200) {
 			if(responseCode==500)
-			{
-				Frame.consoleTextArea.append("[ERROR] Server Inner Error."+"\n");
+			{	
+				Frame.callTextArea("[ERROR] Server Inner Error.");
 				System.exit(200);
 			}
-			Thread.sleep(200);
-			Frame.consoleTextArea.append("[ERROR] Re-send by occured Error."+"\n");
+			Frame.callTextArea("[ERROR] Re-send by occured Error.");
 			sendServer(bk, localIP, serverPath, kindOfLog);
 		}else {
-			Frame.consoleTextArea.append("[INFO] Packet forwarding Success!"+"\n");
-			Frame.consoleTextArea.append("\n");
+			Frame.callTextArea("[INFO] Packet forwarding Success!");
+			Frame.callTextArea("\n");
 		}
 	}
 }
