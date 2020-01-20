@@ -39,7 +39,7 @@ public class kindOfLog {
 		}
 		
 		//get last file hash
-		if(ConnectionMysql.isExist("select * from fileHash", "filePath", filePath)==true)
+		if(ConnectionMysql.isExist("select * from filehash", "filePath", filePath)==true)
 		{
 			lastFileHash=ModifyLog.lastFileHash(filePath);
 		}else

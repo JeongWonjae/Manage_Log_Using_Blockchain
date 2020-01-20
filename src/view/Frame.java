@@ -214,10 +214,20 @@ public class Frame extends JFrame{
 			
 			if(Button.getText().equals("Start web server"))
 			{
+				try {
+					Control.serverStart();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 				Button.setText("Stop web server");
 			}else
 			{
 				Button.setText("Start web server");
+				try {
+					Control.serverStop();
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

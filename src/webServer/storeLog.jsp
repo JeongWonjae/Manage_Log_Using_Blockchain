@@ -72,34 +72,39 @@
       //from other host
       if(sentFlag==1)
       {
-        //set response header
-        response.setHeader("addBlockConfirm", "ACK");
+        //check condition
+        String checkCondition=hash.substring(0,2);
 
-        //get blockID
-        sql="select max(blockID) as count from logchain_"+kindOfLog;
-        stmt_callBlockID=conn.createStatement();
-        rs_callBlockID=stmt_callBlockID.executeQuery(sql);
-        if(rs_callBlockID.next() && rs_callBlockID.getString("count")!=null)
+        if(checkCondition.equals("00"))
         {
-          blockID_s=rs_callBlockID.getString("count");
-          blockID=Integer.parseInt(blockID_s);
-          blockID++;
-        }else
-        {
-          blockID=1;
+          //set response header
+          response.setHeader("addBlockConfirm", "ACK");
+
+          //get blockID
+          sql="select max(blockID) as count from logchain_"+kindOfLog;
+          stmt_callBlockID=conn.createStatement();
+          rs_callBlockID=stmt_callBlockID.executeQuery(sql);
+          if(rs_callBlockID.next() && rs_callBlockID.getString("count")!=null)
+          {
+            blockID_s=rs_callBlockID.getString("count");
+            blockID=Integer.parseInt(blockID_s);
+            blockID++;
+          }else
+          {
+            blockID=1;
+          }
+
+          //add block
+          sql="insert into logchain_"+kindOfLog+" values(?, ?, ?, ?, ?, ?, 1)";
+          pstmt_addBlock=conn.prepareStatement(sql);
+          pstmt_addBlock.setBigDecimal(1, new BigDecimal(blockID));
+          pstmt_addBlock.setString(2, ip);
+          pstmt_addBlock.setString(3, log);
+          pstmt_addBlock.setString(4, hash);
+          pstmt_addBlock.setString(5, pHash);
+          pstmt_addBlock.setBigDecimal(6, new BigDecimal(timeStamp));
+          pstmt_addBlock.executeUpdate();
         }
-
-        //add block
-        sql="insert into logchain_"+kindOfLog+" values(?, ?, ?, ?, ?, ?, 1)";
-        pstmt_addBlock=conn.prepareStatement(sql);
-        pstmt_addBlock.setBigDecimal(1, new BigDecimal(blockID));
-        pstmt_addBlock.setString(2, ip);
-        pstmt_addBlock.setString(3, log);
-        pstmt_addBlock.setString(4, hash);
-        pstmt_addBlock.setString(5, pHash);
-        pstmt_addBlock.setBigDecimal(6, new BigDecimal(timeStamp));
-        pstmt_addBlock.executeUpdate();
-
       //from local host
       }else if(sentFlag==0)
       {
@@ -473,5 +478,12 @@ delete from logchain_user;
 delete from logchain_daemon;
 delete from logchain_boot;
 delete from logchain_messages;
+
+create table serverActivate(
+startup varchar(100) NOT NULL,
+shutdown varchar(100) NOT NULL
+)
+
+insert into serverActivate values("c:\tomcat\bin\startup.bat", "c:\tomcat\bin\shutdown.bat")
 
 -->

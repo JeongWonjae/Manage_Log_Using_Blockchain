@@ -1,5 +1,6 @@
 package view;
-
+import controller.ExcuteThread;
+import controller.ExcuteThread.StartServerThread;
 import controller.kindOfLog;
 
 public class Control {
@@ -21,7 +22,17 @@ public class Control {
 		
 	}
 	
-	public static void server() {
-		
+	public static void serverStart() throws Exception {
+		String filePath=controller.ConnectionMysql.getServerActivatePath("startup");
+		controller.ExcuteThread.StartServerThread start=new controller.ExcuteThread.StartServerThread(filePath);
+		Thread thread=new Thread(start,"Start Server Thread");
+		thread.start();
+	}
+	
+	public static void serverStop() throws Exception {
+		String filePath=controller.ConnectionMysql.getServerActivatePath("shutdown");
+		controller.ExcuteThread.StopServerThread start=new controller.ExcuteThread.StopServerThread(filePath);
+		Thread thread=new Thread(start,"Stop Server Thread");
+		thread.start();
 	}
 }
