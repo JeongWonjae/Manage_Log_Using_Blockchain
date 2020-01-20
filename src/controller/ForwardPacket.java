@@ -52,6 +52,10 @@ public class ForwardPacket {
 			{	
 				Frame.callTextArea("[!] Server Inner Error.");
 				System.exit(200);
+			}else if(responseCode==404)
+			{
+				Frame.callTextArea("[!] Server Not Found.");
+				System.exit(200);
 			}
 			Frame.callTextArea("[!] Re-send by occured Error.");
 			sendServer(bk, localIP, serverPath, kindOfLog);
@@ -61,5 +65,30 @@ public class ForwardPacket {
 			Frame.callTextArea("\n");
 			view.Frame.consoleTextArea.setCaretPosition(view.Frame.consoleTextArea.getDocument().getLength());
 		}
+	}
+	
+	public static int sendLocalHostForWhetherArriveServer(String localIP) throws Exception {
+		int responseCode;
+		String url="http://"+localIP+":8080";
+		try
+		{
+			URL object=new URL(url);
+			HttpURLConnection con=(HttpURLConnection) object.openConnection();
+			con.setRequestMethod("GET");
+			con.setConnectTimeout(5000);
+			con.setDoOutput(true);
+			
+			DataOutputStream send=new DataOutputStream(con.getOutputStream());
+			send.flush();
+			send.close();	
+			
+			responseCode=con.getResponseCode();
+		}catch(Exception e)
+		{
+			responseCode=0;
+			return responseCode;
+		}
+
+		return responseCode;
 	}
 }

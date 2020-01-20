@@ -53,7 +53,6 @@ public class ExcuteThread {
 			try {
 				kindOfLog.EnrollLogBlock(logType, localIP);
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

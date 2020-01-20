@@ -1,7 +1,4 @@
 package view;
-import controller.ExcuteThread;
-import controller.ExcuteThread.StartServerThread;
-import controller.kindOfLog;
 
 public class Control {
 	

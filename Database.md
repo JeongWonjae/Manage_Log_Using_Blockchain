@@ -148,7 +148,8 @@ PRIMARY KEY (filePath)
 
 create table serverActivate(
 startup varchar(100) NOT NULL,
-shutdown varchar(100) NOT NULL
+shutdown varchar(100) NOT NULL,
+settingsPath varchar(100) NOT NULL
 )
 
 ## Data Manipulation Language Command
@@ -159,15 +160,15 @@ insert into node values("192.168.11.8", "1111", "HR-TEAM-PC-2", "/bckProject/sto
 ### #2 Not Common
 192.168.11.104 :
 ```sh
-insert into serverActivate values("c:\tomcat\bin\startup.bat", "c:\tomcat\bin\shutdown.bat")
+insert into serverActivate values("c:\\tomcat\\bin\\startup.bat", "c:\\tomcat\\bin\\shutdown.bat", "D:\\Eclipse-workspace\\BCKLogProject\\settings.init")
 ```
 192.168.11.105 :
 ```sh
-insert into serverActivate values("/root/serv/tomcat/bin/startup.sh", "/root/serv/tomcat/bin/shutdown.sh")
+insert into serverActivate values("/root/serv/tomcat/bin/startup.sh", "/root/serv/tomcat/bin/shutdown.sh", "?")
 ```
 192.168.11.8 :
 ```sh
-insert into serverActivate values("/usr/server/tomcat/bin/startup.sh", "/usr/server/tomcat/bin/shutdown.sh")
+insert into serverActivate values("/usr/server/tomcat/bin/startup.sh", "/usr/server/tomcat/bin/shutdown.sh", "?")
 ```
 ### #3 Assistant
 delete from logchain_wtmp;

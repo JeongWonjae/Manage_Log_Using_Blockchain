@@ -7,7 +7,6 @@ import java.sql.Statement;
 public class ConnectionMysql {
 
 	static void queryNotReturn(String query) throws SQLException {
-		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		
@@ -27,16 +26,12 @@ public class ConnectionMysql {
 				try
 				{
 					conn.close();
-				} catch(Exception e)
-				{
-				}
+				} catch(Exception e){}
 			}
 		}
-		
 	}
 	
-	static String queryReturnString(String query, String findAttribute) throws SQLException {
-		
+	public static String queryReturnString(String query, String findAttribute) throws SQLException {
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		ResultSet rs=null;
@@ -48,12 +43,10 @@ public class ConnectionMysql {
 			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(query);
-			
 			if(rs.next())
 			{
 				res=rs.getString(findAttribute);
 			}
-	
 		} catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
@@ -64,16 +57,13 @@ public class ConnectionMysql {
 				try
 				{
 					conn.close();
-				} catch(Exception e)
-				{
-				}
+				} catch(Exception e){}
 			}
 		}
 		return res;
 	}
 	
 	static int queryReturnInt(String query, String findAttribute) throws SQLException {
-		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		ResultSet rs=null;
@@ -85,12 +75,10 @@ public class ConnectionMysql {
 			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(query);
-			
 			if(rs.next())
 			{
 				res=rs.getInt(findAttribute);
 			}
-	
 		} catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
@@ -101,19 +89,15 @@ public class ConnectionMysql {
 				try
 				{
 					conn.close();
-				} catch(Exception e)
-				{
-				}
+				} catch(Exception e){}
 			}
 		}
 		return res;
 	}
 	
 	static void insertIntoFileHash(String filePath,String fileHash) throws SQLException {
-		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
-		
 		String query="insert into filehash values("+"'"+filePath+"'"+",'"+fileHash+"')";
 		
 		try
@@ -132,20 +116,15 @@ public class ConnectionMysql {
 				try
 				{
 					conn.close();
-				} catch(Exception e)
-				{
-				}
+				} catch(Exception e){}
 			}
 		}
 	}
 	
-	static void updateSetFileHash(String filePath, String fileHash) throws SQLException{
-		
+	static void updateSetFileHash(String filePath, String fileHash) throws SQLException{	
 		java.sql.Connection conn=null;
 		Statement stmt=null;
-		
 		String query="update filehash set hash='"+fileHash+"' where filePath='"+filePath+"'";
-		
 		try
 		{
 			Class.forName("com.mysql.jdbc.Driver");
@@ -162,20 +141,16 @@ public class ConnectionMysql {
 				try
 				{
 					conn.close();
-				} catch(Exception e)
-				{
-				}
+				} catch(Exception e){}
 			}
 		}
 		
 	}
 	
 	static boolean isExist(String query, String findAttributeName, String findAttributeValue) throws SQLException {
-		
 		java.sql.Connection conn=null;
 		Statement stmt=null;
 		ResultSet rs=null;
-		
 		if(findAttributeValue==null)
 		{
 			query=query;
@@ -183,7 +158,6 @@ public class ConnectionMysql {
 		{
 			query=query+" where "+findAttributeName+"='"+findAttributeValue+"'";
 		}
-		
 		int is=0;
 		
 		try
@@ -192,7 +166,6 @@ public class ConnectionMysql {
 			conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false", "root", "root");
 			stmt=conn.createStatement();
 			rs=stmt.executeQuery(query);
-			
 			if(rs.next())
 			{
 				is=1;
@@ -210,9 +183,7 @@ public class ConnectionMysql {
 				try
 				{
 					conn.close();
-				} catch(Exception e)
-				{
-				}
+				} catch(Exception e){}
 			}
 		}
 		if(is==1)
@@ -244,7 +215,6 @@ public class ConnectionMysql {
 			{
 				res=rs.getString("serverPath");
 			}
-	
 		} catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
@@ -282,7 +252,6 @@ public class ConnectionMysql {
 			{
 				res=rs.getString("filePath");
 			}
-	
 		} catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
@@ -322,7 +291,6 @@ public class ConnectionMysql {
 			{
 				res=rs.getString(attributeName);
 			}
-	
 		} catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
@@ -360,7 +328,6 @@ public static String getServerActivatePath(String findAttribute) throws SQLExcep
 			{
 				res=rs.getString(findAttribute);
 			}
-	
 		} catch(ClassNotFoundException e)
 		{
 			e.printStackTrace();
@@ -378,5 +345,4 @@ public static String getServerActivatePath(String findAttribute) throws SQLExcep
 		}
 		return res;
 	}
-
 }

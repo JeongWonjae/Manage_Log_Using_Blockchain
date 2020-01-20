@@ -49,7 +49,7 @@ public class Frame extends JFrame{
 		});
 	}
 
-	public Frame() {
+	public Frame() throws Exception {
 		
 		this.setSize(750,500);
 		this.setBackground(Color.WHITE);
@@ -162,6 +162,15 @@ public class Frame extends JFrame{
 		controlServerButton.setBounds(475, 413, 235, 30);
 		controlServerButton.addActionListener(new ControlServerListener());
 		contentPane.add(controlServerButton);
+		
+		//revise control server button
+		String localIP=init.SettingParameter.getLocalIP();
+		int responseCode;
+		responseCode=controller.ForwardPacket.sendLocalHostForWhetherArriveServer(localIP);
+		if(responseCode==200)
+		{
+			controlServerButton.setText("Stop web server");
+		}
 	}
 	
 	public class StartListener implements ActionListener{
