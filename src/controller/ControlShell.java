@@ -17,7 +17,7 @@ public class ControlShell {
 		String line;
 		while((line=br.readLine())!=null)
 		{
-			Frame.callTextArea(line);
+			Frame.callTextArea("[+] "+line);
 		}
 	}
 }

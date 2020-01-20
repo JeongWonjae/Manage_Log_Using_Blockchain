@@ -32,12 +32,17 @@ public class ForwardPacket {
 		
 		int responseCode=con.getResponseCode();
 		
+		Frame.callTextArea("---------------------------------------------------------------------------------------------------");
+		Frame.callTextArea("[+] Log : "+bk.log);
+		Frame.callTextArea("[+] hash : "+bk.hash);
+		Frame.callTextArea("[+] pHash : "+bk.allocatePreviousHash);
+		Frame.callTextArea("[+] timeStamp : "+bk.timeStamp);
+		Frame.callTextArea("");
+		Frame.callTextArea("[+] Send URL : "+url);
+		Frame.callTextArea("[+] Send Parameter : "+urlParameter);
+		Frame.callTextArea("[+] Response Code : "+responseCode);
 		
-		Frame.callTextArea("[INFO] Send URL : "+url);
-		Frame.callTextArea("[INFO] Send Parameter : "+urlParameter);
-		Frame.callTextArea("[INFO] Response Code : "+responseCode);
-		
-		Frame.callTextArea("[INFO] Error check...");
+		Frame.callTextArea("[+] Error check.");
 		errorCheck(bk, localIP, serverPath, responseCode, kindOfLog);
 	}
 	
@@ -45,14 +50,16 @@ public class ForwardPacket {
 		if(responseCode!=200) {
 			if(responseCode==500)
 			{	
-				Frame.callTextArea("[ERROR] Server Inner Error.");
+				Frame.callTextArea("[!] Server Inner Error.");
 				System.exit(200);
 			}
-			Frame.callTextArea("[ERROR] Re-send by occured Error.");
+			Frame.callTextArea("[!] Re-send by occured Error.");
 			sendServer(bk, localIP, serverPath, kindOfLog);
 		}else {
-			Frame.callTextArea("[INFO] Packet forwarding Success!");
+			Frame.callTextArea("[+] Packet forwarding Success.");
+			Frame.callTextArea("---------------------------------------------------------------------------------------------------");
 			Frame.callTextArea("\n");
+			view.Frame.consoleTextArea.setCaretPosition(view.Frame.consoleTextArea.getDocument().getLength());
 		}
 	}
 }

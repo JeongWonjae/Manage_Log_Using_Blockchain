@@ -173,9 +173,9 @@ public class Frame extends JFrame{
 			if(Button.getText().equals("Start log enrollment"))
 			{
 				Button.setText("Stop log enrollment");
-				consoleTextArea.append("[INFO] Local IP : "+txtLocalIp.getText()+"\n");
+				consoleTextArea.append("[+] Local IP : "+txtLocalIp.getText()+"\n");
 				selected=getLogName();
-				consoleTextArea.append("[INFO] Start log enrollment to Log BlockChain"+"\n");
+				consoleTextArea.append("[+] Start log enrollment to Log BlockChain"+"\n");
 				consoleTextArea.append("\n");
 				
 				//call kindOfLog.EnrollLogBlock
@@ -242,52 +242,52 @@ public class Frame extends JFrame{
 		//wtmp
 		if(wtmpCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/wtmp"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/wtmp"+"\n");
 			selected+="wtmp/";
 		}
 		if(utmpCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/run/utmp"+"\n");
+			consoleTextArea.append("[+] Selected /var/run/utmp"+"\n");
 			selected+="utmp/";
 		}
 		if(btmpCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/btmp"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/btmp"+"\n");
 			selected+="btmp/";
 		}
 		if(dpkgCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/dpkg"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/dpkg"+"\n");
 			selected+="dpkg/";
 		}
 		if(authCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/auth"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/auth"+"\n");
 			selected+="auth/";
 		}
 		if(userCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/user"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/user"+"\n");
 			selected+="user/";
 		}
 		if(daemonCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/daemon"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/daemon"+"\n");
 			selected+="daemon/";
 		}
 		if(bootCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/boot"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/boot"+"\n");
 			selected+="boot/";
 		}
 		if(messagesCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/messages"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/messages"+"\n");
 			selected+="messages/";
 		}
 		if(secureCheckBox.isSelected())
 		{
-			consoleTextArea.append("[INFO] Selected /var/log/secure"+"\n");
+			consoleTextArea.append("[+] Selected /var/log/secure"+"\n");
 			selected+="secure/";
 		}
 		return selected;

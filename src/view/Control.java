@@ -13,9 +13,12 @@ public class Control {
 		
 		for(selectedLogArrIndex=0;selectedLogArrIndex<selectedLogArr.length;selectedLogArrIndex++)
 		{
-			Frame.callTextArea("[INFO] Send Packet about "+selectedLogArr[selectedLogArrIndex]);
-			kindOfLog.EnrollLogBlock(selectedLogArr[selectedLogArrIndex], localIP);
+			Frame.callTextArea("[+] Send Packet about "+selectedLogArr[selectedLogArrIndex]);
+			controller.ExcuteThread.LogBlockThread start=new controller.ExcuteThread.LogBlockThread(selectedLogArr[selectedLogArrIndex], localIP);
+			Thread thread=new Thread(start, selectedLogArr[selectedLogArrIndex]);
+			thread.start();
 		}
+		Frame.callTextArea("");
 	}
 	
 	public static void retry() {

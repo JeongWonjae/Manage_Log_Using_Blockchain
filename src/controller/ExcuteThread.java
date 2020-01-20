@@ -38,4 +38,25 @@ public class ExcuteThread {
 		}
 	}
 	
+	public static class LogBlockThread implements Runnable{
+		
+		String logType;
+		String localIP;
+		
+		public LogBlockThread(String logType, String localIP)
+		{
+			this.logType=logType;
+			this.localIP=localIP;
+		}
+		@Override
+		public void run() {
+			try {
+				kindOfLog.EnrollLogBlock(logType, localIP);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
 }

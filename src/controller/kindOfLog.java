@@ -73,7 +73,9 @@ public class kindOfLog {
 					ForwardPacket.sendServer(bk , localIP, serverPath, KindOfLog);
 				}else
 				{
-					Frame.callTextArea("[INFO] Failed. Already enrolled this log block -> "+bk.log+" / "+bk.hash);
+					Frame.callTextArea("[+] Sending Failed. Already enrolled this log block"+bk.log);
+					Frame.callTextArea("[+] Log : "+bk.log);
+					Frame.callTextArea("");
 				}
 			}
 			
