@@ -50,7 +50,6 @@
 
   try
   {
-      Thread.sleep(300);
       //connect database
       Class.forName("com.mysql.jdbc.Driver");
       conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/logbck_project?serverTimezone=UTC&useUnicode=true&charaterEncoding=euckr&useSSL=false","root","root");
@@ -463,6 +462,15 @@ insert into node values("192.168.11.104", "1234", "HR-TEAM-PC-1", "/jsp/bckProje
 insert into node values("192.168.11.105", "randd", "R&D-TEAM-PC-1", "/serv/storeLog.jsp", "/serv/failLog.jsp");
 insert into node values("192.168.11.8", "1111", "HR-TEAM-PC-2", "/bckProject/storeLog.jsp", "/bckProject/failLog.jsp");
 
+//windows
+insert into serverActivate values("c:\tomcat\bin\startup.bat", "c:\tomcat\bin\shutdown.bat")
+
+//kail
+insert into serverActivate values("/root/serv/tomcat/bin/startup.sh", "/root/serv/tomcat/bin/shutdown.sh")
+
+//cent
+insert into serverActivate values("/usr/server/tomcat/bin/startup.sh", "/usr/server/tomcat/bin/shutdown.sh")
+
 
 alter table node add column serverPath varchar(30) NOT NULL;
 alter table logchain modify timeStamp bigint;
@@ -484,6 +492,6 @@ startup varchar(100) NOT NULL,
 shutdown varchar(100) NOT NULL
 )
 
-insert into serverActivate values("c:\tomcat\bin\startup.bat", "c:\tomcat\bin\shutdown.bat")
+
 
 -->
