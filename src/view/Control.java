@@ -35,4 +35,10 @@ public class Control {
 		Thread thread=new Thread(start,"Stop Server Thread");
 		thread.start();
 	}
+	
+	public static void updateLog() {
+		controller.ExcuteThread.updateLog  start=new controller.ExcuteThread.updateLog();
+		Thread thread=new Thread(start,"updateLog");
+		thread.start();
+	}
 }

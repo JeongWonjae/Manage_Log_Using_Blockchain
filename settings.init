@@ -1,1 +1,10 @@
+#Local IP
 localIP=192.168.11.104
+
+#Path of the log to update
+LogPath=/var/log/wtmp.log
+LogPath=/var/run/utmp.log
+LogPath=/var/log/btmp.log
+
+#Directory path to be updated log
+UpdatePath=/root/serv

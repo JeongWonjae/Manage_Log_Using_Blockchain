@@ -21,6 +21,8 @@ public class Frame extends JFrame{
 	private JPanel contentPane;
 	private JTextField txtLocalIp;
 	public static JTextArea consoleTextArea;
+	private JScrollPane jscrollPane;
+	public static JButton updateLogButton;
 	private JCheckBox wtmpCheckBox;
 	private JCheckBox utmpCheckBox;
 	private JCheckBox btmpCheckBox;
@@ -31,7 +33,6 @@ public class Frame extends JFrame{
 	private JCheckBox bootCheckBox;
 	private JCheckBox messagesCheckBox;
 	private JCheckBox secureCheckBox;
-	private JScrollPane jscrollPane;
 
 	public static void run() {
 		EventQueue.invokeLater(new Runnable() 
@@ -51,7 +52,7 @@ public class Frame extends JFrame{
 
 	public Frame() throws Exception {
 		
-		this.setSize(750,500);
+		this.setSize(753,546);
 		this.setBackground(Color.WHITE);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Log BlockChain Project");
@@ -65,10 +66,10 @@ public class Frame extends JFrame{
 		//text area, scroll
 		consoleTextArea = new JTextArea();
 		jscrollPane=new JScrollPane(consoleTextArea);
-		jscrollPane.setBounds(12, 10, 428, 441);
+		jscrollPane.setBounds(12, 10, 428, 480);
 		contentPane.add(jscrollPane);
 		consoleTextArea.setLineWrap(true);
-		consoleTextArea.setBounds(12, 10, 428, 441);
+		consoleTextArea.setBounds(12, 10, 428, 480);
 		consoleTextArea.setCaretPosition(consoleTextArea.getDocument().getLength());
 		
 		txtLocalIp = new JTextField();
@@ -163,6 +164,12 @@ public class Frame extends JFrame{
 		controlServerButton.addActionListener(new ControlServerListener());
 		contentPane.add(controlServerButton);
 		
+		updateLogButton = new JButton("Start Log Update");
+		updateLogButton.setFont(new Font("³ª´®°íµñÄÚµù", Font.PLAIN, 15));
+		updateLogButton.setBounds(475, 453, 235, 30);
+		updateLogButton.addActionListener(new UpdateLogListener());
+		contentPane.add(updateLogButton);
+		
 		//revise control server button
 		String localIP=init.SettingParameter.getLocalIP();
 		int responseCode;
@@ -171,6 +178,8 @@ public class Frame extends JFrame{
 		{
 			controlServerButton.setText("Stop web server");
 		}
+		
+		//
 	}
 	
 	public class StartListener implements ActionListener{
@@ -237,6 +246,22 @@ public class Frame extends JFrame{
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
+			}
+		}
+	}
+	
+	public class UpdateLogListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JButton Button=(JButton)e.getSource();
+			
+			if(Button.getText().equals("Start Log Update"))
+			{
+				Button.setText("Stop Log Update");
+				Control.updateLog();
+			}else
+			{
+				Button.setText("Start Log Update");
 			}
 		}
 	}
