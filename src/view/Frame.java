@@ -147,13 +147,13 @@ public class Frame extends JFrame{
 		
 		//bottom button
 		JButton startButton = new JButton("Start log enrollment");
-		startButton.setFont(new Font("³ª´®½ºÄù¾î", Font.PLAIN, 15));
+		startButton.setFont(new Font("³ª´®°íµñÄÚµù", Font.PLAIN, 15));
 		startButton.setBounds(475, 333, 235, 30);
 		startButton.addActionListener(new StartListener());
 		contentPane.add(startButton);
 		
 		JButton retryButton = new JButton("Re-start what failed");
-		retryButton.setFont(new Font("³ª´®½ºÄù¾î", Font.PLAIN, 15));
+		retryButton.setFont(new Font("³ª´®°íµñÄÚµù", Font.PLAIN, 15));
 		retryButton.setBounds(475, 373, 235, 30);
 		retryButton.addActionListener(new RetryListener());
 		contentPane.add(retryButton);

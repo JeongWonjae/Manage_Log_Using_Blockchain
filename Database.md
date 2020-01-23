@@ -146,7 +146,7 @@ hash varchar(100) NOT NULL,
 PRIMARY KEY (filePath)
 );
 
-create table serverActivate(
+create table serveractivate(
 startup varchar(100) NOT NULL,
 shutdown varchar(100) NOT NULL,
 settingsPath varchar(100) NOT NULL
@@ -160,15 +160,25 @@ insert into node values("192.168.11.8", "1111", "HR-TEAM-PC-2", "/bckProject/sto
 ### #2 Not Common
 192.168.11.104 :
 ```sh
-insert into serverActivate values("c:\\tomcat\\bin\\startup.bat", "c:\\tomcat\\bin\\shutdown.bat", "D:\\Eclipse-workspace\\BCKLogProject\\settings.init")
+insert into serveractivate values("c:\\tomcat\\bin\\startup.bat", "c:\\tomcat\\bin\\shutdown.bat", "D:\\Eclipse-workspace\\BCKLogProject\\settings.init")
 ```
 192.168.11.105 :
 ```sh
-insert into serverActivate values("/root/serv/tomcat/bin/startup.sh", "/root/serv/tomcat/bin/shutdown.sh", "?")
+insert into serveractivate values("/root/Downloads/tomcat/bin/startup.sh", "/root/Downloads/tomcat/bin/shutdown.sh", "/root/eclipse-workspace/BCKLogProject/settings.init")
+insert into filehash values("/root/serv/logfile/wtmp.log", "wtmp");
+insert into filehash values("/root/serv/logfile/utmp.log", "utmp");
+insert into filehash values("/root/serv/logfile/btmp.log", "btmp");
+insert into filehash values("/root/serv/logfile/dpkg.log", "dpkg");
+insert into filehash values("/root/serv/logfile/daemon.log", "daemon");
+insert into filehash values("/root/serv/logfile/messages.log", "messages");
+insert into filehash values("/root/serv/logfile/boot.log", "boot");
+insert into filehash values("/root/serv/logfile/auth.log", "auth");
+insert into filehash values("/root/serv/logfile/user.log", "user");
+
 ```
 192.168.11.8 :
 ```sh
-insert into serverActivate values("/usr/server/tomcat/bin/startup.sh", "/usr/server/tomcat/bin/shutdown.sh", "?")
+insert into serveractivate values("/usr/server/tomcat/bin/startup.sh", "/usr/server/tomcat/bin/shutdown.sh", "?")
 ```
 ### #3 Assistant
 delete from logchain_wtmp;

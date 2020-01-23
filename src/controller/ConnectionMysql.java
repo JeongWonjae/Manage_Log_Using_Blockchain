@@ -315,7 +315,7 @@ public static String getServerActivatePath(String findAttribute) throws SQLExcep
 		Statement stmt=null;
 		ResultSet rs=null;
 		String res="";
-		String query="select "+findAttribute+" from serverActivate";
+		String query="select "+findAttribute+" from serveractivate";
 		
 		try
 		{
