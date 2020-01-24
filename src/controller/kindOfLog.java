@@ -60,22 +60,38 @@ public class kindOfLog {
 			logchain=Block.createBlock(localIP, log, KindOfLog);
 			
 			//loop block
-			for(BlockStructure bk : logchain)
+			for(BlockStructure cp : logchain)
 			{
-				compareCurrentLog=(bk.log).replaceAll("'", "");
-				
-				if(compareCurrentLog.equals(compareLastLog) && compareEndFlag==0)
+				compareCurrentLog=(cp.log).replaceAll("'", "");
+				if(compareCurrentLog.equals(compareLastLog))
 				{
-					startEnrollmentFlag=1;
 					compareEndFlag=1;
-				}else if(startEnrollmentFlag==1&&compareEndFlag==1)
+				}
+			}
+			
+			if(compareEndFlag==1)
+			{
+				for(BlockStructure bk : logchain)
+				{
+					compareCurrentLog=(bk.log).replaceAll("'", "");
+					
+					if(compareCurrentLog.equals(compareLastLog))
+					{
+						startEnrollmentFlag=1;
+					}else if(startEnrollmentFlag==1)
+					{
+						ForwardPacket.sendServer(bk , localIP, serverPath, KindOfLog);
+					}else
+					{
+						Frame.callTextArea("[+] Sending Failed. Already enrolled this log block"+bk.log);
+						Frame.callTextArea("[+] Log : "+bk.log);
+						Frame.callTextArea("");
+					}
+				}
+			}else {
+				for(BlockStructure bk : logchain)
 				{
 					ForwardPacket.sendServer(bk , localIP, serverPath, KindOfLog);
-				}else
-				{
-					Frame.callTextArea("[+] Sending Failed. Already enrolled this log block"+bk.log);
-					Frame.callTextArea("[+] Log : "+bk.log);
-					Frame.callTextArea("");
 				}
 			}
 			

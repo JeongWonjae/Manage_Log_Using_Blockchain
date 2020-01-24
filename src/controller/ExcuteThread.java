@@ -69,7 +69,7 @@ public static class updateLog implements Runnable{
 		@Override
 		public void run() {
 			String updatePath;
-			HashMap<String, String> logPathName=new HashMap();
+			HashMap<String, String> logPathName=new HashMap<String, String>();
 			try {
 				logPathName=SettingParameter.getLogPath();
 			} catch (Exception e1) {
